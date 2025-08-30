@@ -12,12 +12,14 @@ export interface RetirementInputs {
   retirementAge: number;
   currentSavings: number;
   desiredMonthlyIncome: number;
+  customRoi?: number;
 }
 
 export interface RetirementResults {
   conservative: RetirementScenario;
   moderate: RetirementScenario;
   aggressive: RetirementScenario;
+  custom?: RetirementScenario;
   inflationRate: number;
   yearsToRetirement: number;
 }
@@ -26,7 +28,7 @@ const INFLATION_RATE = 0.03;
 const WITHDRAWAL_RATE = 0.04; // 4% rule
 
 export function calculateRetirementScenarios(inputs: RetirementInputs): RetirementResults {
-  const { currentAge, retirementAge, currentSavings, desiredMonthlyIncome } = inputs;
+  const { currentAge, retirementAge, currentSavings, desiredMonthlyIncome, customRoi } = inputs;
   const yearsToRetirement = retirementAge - currentAge;
   
   if (yearsToRetirement <= 0) {
@@ -44,6 +46,11 @@ export function calculateRetirementScenarios(inputs: RetirementInputs): Retireme
     { name: 'moderate', roi: 0.07 },
     { name: 'aggressive', roi: 0.10 }
   ];
+
+  // Add custom scenario if provided
+  if (customRoi && customRoi > 0) {
+    scenarios.push({ name: 'custom', roi: customRoi / 100 });
+  }
 
   const results: any = {
     inflationRate: INFLATION_RATE,
@@ -94,8 +101,15 @@ export function generateGrowthProjectionData(inputs: RetirementInputs, scenarios
     const age = currentAge + year;
     const dataPoint: any = { age, year };
     
-    ['conservative', 'moderate', 'aggressive'].forEach(scenarioName => {
+    const scenarioNames = ['conservative', 'moderate', 'aggressive'];
+    if (scenarios.custom) {
+      scenarioNames.push('custom');
+    }
+    
+    scenarioNames.forEach(scenarioName => {
       const scenario = scenarios[scenarioName as keyof typeof scenarios] as RetirementScenario;
+      if (!scenario) return;
+      
       const monthlyRoi = scenario.roi / 12;
       const months = year * 12;
       
@@ -125,10 +139,11 @@ export function getInsights(inputs: RetirementInputs, results: RetirementResults
   
   // Best case scenario
   const bestScenario = results.aggressive.requiredMonthlySavings < results.moderate.requiredMonthlySavings ? 'aggressive' : 'moderate';
+  const bestScenarioData = bestScenario === 'aggressive' ? results.aggressive : results.moderate;
   insights.push({
     type: 'success',
     title: 'Best Case Scenario',
-    description: `${bestScenario.charAt(0).toUpperCase() + bestScenario.slice(1)} portfolio requires only $${results[bestScenario as keyof typeof results].requiredMonthlySavings}/month to reach your goal`
+    description: `${bestScenario.charAt(0).toUpperCase() + bestScenario.slice(1)} portfolio requires only $${bestScenarioData.requiredMonthlySavings}/month to reach your goal`
   });
   
   // Conservative challenge

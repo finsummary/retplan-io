@@ -24,6 +24,7 @@ const formSchema = z.object({
   retirementAge: z.number().min(50, "Must be at least 50").max(100, "Must be less than 100"),
   currentSavings: z.number().min(0, "Cannot be negative"),
   desiredMonthlyIncome: z.number().min(100, "Must be at least $100"),
+  customRoi: z.number().min(0.1, "Must be at least 0.1%").max(50, "Must be less than 50%").optional(),
 }).refine((data) => data.retirementAge > data.currentAge, {
   message: "Retirement age must be greater than current age",
   path: ["retirementAge"],
@@ -42,6 +43,7 @@ export default function RetirementCalculator() {
       retirementAge: 65,
       currentSavings: 25000,
       desiredMonthlyIncome: 4000,
+      customRoi: undefined,
     },
   });
 
@@ -61,7 +63,7 @@ export default function RetirementCalculator() {
   const watchedValues = form.watch();
   
   // Calculate on form change if all fields are valid
-  const isFormValid = form.formState.isValid && !form.formState.errors.currentAge && !form.formState.errors.retirementAge && !form.formState.errors.currentSavings && !form.formState.errors.desiredMonthlyIncome;
+  const isFormValid = form.formState.isValid && !form.formState.errors.currentAge && !form.formState.errors.retirementAge && !form.formState.errors.currentSavings && !form.formState.errors.desiredMonthlyIncome && !form.formState.errors.customRoi;
   
   if (isFormValid && !results) {
     onSubmit(watchedValues);
@@ -73,6 +75,7 @@ export default function RetirementCalculator() {
     { name: 'Conservative (4%)', value: results.conservative.requiredMonthlySavings, color: '#f97316' },
     { name: 'Moderate (7%)', value: results.moderate.requiredMonthlySavings, color: '#3b82f6' },
     { name: 'Aggressive (10%)', value: results.aggressive.requiredMonthlySavings, color: '#10b981' },
+    ...(results.custom ? [{ name: `Custom (${(results.custom.roi * 100).toFixed(1)}%)`, value: results.custom.requiredMonthlySavings, color: '#8b5cf6' }] : []),
   ] : [];
 
   return (
@@ -166,6 +169,26 @@ export default function RetirementCalculator() {
                 />
                 {form.formState.errors.desiredMonthlyIncome && (
                   <p className="text-sm text-destructive">{form.formState.errors.desiredMonthlyIncome.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="customRoi">Custom ROI Rate (% per year, optional)</Label>
+                <Input
+                  id="customRoi"
+                  type="number"
+                  placeholder="e.g., 8.5"
+                  step="0.1"
+                  data-testid="input-custom-roi"
+                  {...form.register("customRoi", { valueAsNumber: true })}
+                  onChange={(e) => {
+                    const value = parseFloat(e.target.value);
+                    form.setValue("customRoi", isNaN(value) ? undefined : value);
+                    if (isFormValid) onSubmit(form.getValues());
+                  }}
+                />
+                {form.formState.errors.customRoi && (
+                  <p className="text-sm text-destructive">{form.formState.errors.customRoi.message}</p>
                 )}
               </div>
 
@@ -309,6 +332,49 @@ export default function RetirementCalculator() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Custom Scenario */}
+            {results.custom && (
+              <Card className="mb-4">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="font-semibold text-purple-600">Custom ({(results.custom.roi * 100).toFixed(1)}% ROI)</h3>
+                    <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Required Monthly Savings:</span>
+                      <span className="font-semibold text-accent" data-testid="custom-monthly-savings">
+                        ${results.custom.requiredMonthlySavings.toLocaleString()}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Future Monthly Income:</span>
+                      <span className="font-medium" data-testid="custom-future-income">
+                        ${results.custom.futureMonthlyIncome.toLocaleString()}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Today's Purchasing Power:</span>
+                      <span className="font-medium text-accent" data-testid="custom-todays-power">
+                        ${results.custom.todaysPurchasingPower.toLocaleString()}
+                      </span>
+                    </div>
+
+                    <div className="bg-muted p-3 rounded-md">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Progress to Goal</span>
+                        <span className="text-sm font-medium">{results.custom.progressToGoal}%</span>
+                      </div>
+                      <Progress value={results.custom.progressToGoal} className="mt-1" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </section>
         )}
 
@@ -328,6 +394,7 @@ export default function RetirementCalculator() {
                     conservative: { label: "Conservative", color: "#f97316" },
                     moderate: { label: "Moderate", color: "#3b82f6" },
                     aggressive: { label: "Aggressive", color: "#10b981" },
+                    custom: { label: "Custom", color: "#8b5cf6" },
                   }}
                   className="h-64"
                 >
@@ -335,10 +402,11 @@ export default function RetirementCalculator() {
                     <LineChart data={chartData}>
                       <XAxis dataKey="age" />
                       <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <ChartTooltip content={ChartTooltipContent} />
                       <Line type="monotone" dataKey="conservative" stroke="#f97316" strokeWidth={2} />
                       <Line type="monotone" dataKey="moderate" stroke="#3b82f6" strokeWidth={2} />
                       <Line type="monotone" dataKey="aggressive" stroke="#10b981" strokeWidth={2} />
+                      {results?.custom && <Line type="monotone" dataKey="custom" stroke="#8b5cf6" strokeWidth={2} />}
                     </LineChart>
                   </ResponsiveContainer>
                 </ChartContainer>
@@ -363,7 +431,7 @@ export default function RetirementCalculator() {
                     <BarChart data={scenarioData}>
                       <XAxis dataKey="name" />
                       <YAxis tickFormatter={(value) => `$${value.toLocaleString()}`} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <ChartTooltip content={ChartTooltipContent} />
                       <Bar dataKey="value" fill="#3b82f6" />
                     </BarChart>
                   </ResponsiveContainer>
