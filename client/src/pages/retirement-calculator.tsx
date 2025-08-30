@@ -894,7 +894,7 @@ I just calculated my retirement plan and wanted to share it with you:
 • Moderate (7%): $${Math.round(results.moderate.requiredMonthlySavings).toLocaleString()}/month  
 • Aggressive (10%): $${Math.round(results.aggressive.requiredMonthlySavings).toLocaleString()}/month
 
-📊 Total Needed at Retirement: $${Math.round(results.conservative.totalNeeded).toLocaleString()}
+📊 Total Needed at Retirement: $${Math.round(results.conservative.totalSavingsAtRetirement).toLocaleString()}
 
 You can view my full calculation and create your own here:
 ${window.location.origin}/?age=${watchedValues.currentAge}&retirement=${watchedValues.retirementAge}&savings=${watchedValues.currentSavings}&income=${watchedValues.desiredMonthlyIncome}
