@@ -10,7 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, BarChart, Bar } from "recharts";
-import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertTriangle, Lightbulb, Save, Share, Bus, LogIn, LogOut, User } from "lucide-react";
+import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertTriangle, Lightbulb, Save, Share, Bus, LogIn, LogOut, User, History, Trash2, Eye } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -61,7 +61,7 @@ export default function RetirementCalculator() {
   });
   
   // Query for saved scenarios
-  const { data: savedScenarios } = useQuery({
+  const { data: savedScenarios = [] } = useQuery({
     queryKey: ["/api/scenarios"],
     enabled: isAuthenticated,
     retry: false,
@@ -634,6 +634,63 @@ export default function RetirementCalculator() {
             </CardContent>
           </Card>
         </section>
+
+        {/* Saved Scenarios */}
+        {isAuthenticated && savedScenarios && savedScenarios.length > 0 && (
+          <section className="p-4">
+            <Card className="mb-4">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <History className="mr-2 text-primary" />
+                  Saved Scenarios ({savedScenarios.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {savedScenarios.map((scenario: any) => (
+                    <div key={scenario.id} className="border rounded-lg p-3 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-medium text-sm" data-testid={`text-scenario-name-${scenario.id}`}>{scenario.name}</h4>
+                        <div className="flex items-center space-x-1">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              // Load scenario data into form
+                              form.reset({
+                                currentAge: scenario.currentAge,
+                                retirementAge: scenario.retirementAge,
+                                currentSavings: scenario.currentSavings,
+                                desiredMonthlyIncome: scenario.desiredIncome,
+                              });
+                              // Trigger calculation
+                              const scenarioInputs = {
+                                currentAge: scenario.currentAge,
+                                retirementAge: scenario.retirementAge,
+                                currentSavings: scenario.currentSavings,
+                                desiredMonthlyIncome: scenario.desiredIncome,
+                              };
+                              onSubmit(scenarioInputs);
+                            }}
+                            data-testid={`button-load-scenario-${scenario.id}`}
+                          >
+                            <Eye className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                        <div>Age: {scenario.currentAge} → {scenario.retirementAge}</div>
+                        <div>Current: ${scenario.currentSavings.toLocaleString()}</div>
+                        <div>Target: ${scenario.desiredIncome.toLocaleString()}/mo</div>
+                        <div>Saved: {new Date(scenario.createdAt).toLocaleDateString()}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+        )}
 
         {/* Action Buttons */}
         <section className="p-4 pb-8">
