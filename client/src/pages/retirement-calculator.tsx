@@ -958,6 +958,94 @@ Best regards!`;
           </div>
         </section>
       </main>
+
+      {/* Footer Navigation */}
+      <footer className="bg-muted/30 border-t">
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <div className="grid md:grid-cols-4 gap-6">
+            {/* Quick Links */}
+            <div>
+              <h3 className="font-semibold text-sm text-primary mb-3">Getting Started</h3>
+              <div className="space-y-2">
+                <Link href="/guide">
+                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
+                    Calculator Guide
+                  </Button>
+                </Link>
+                <Link href="/faq">
+                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
+                    FAQ
+                  </Button>
+                </Link>
+                <Link href="/blog">
+                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
+                    Planning Resources
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h3 className="font-semibold text-sm text-primary mb-3">Company</h3>
+              <div className="space-y-2">
+                <Link href="/about">
+                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
+                    About Us
+                  </Button>
+                </Link>
+                <Link href="/contact">
+                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
+                    Contact
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h3 className="font-semibold text-sm text-primary mb-3">Legal</h3>
+              <div className="space-y-2">
+                <Link href="/terms">
+                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
+                    Terms of Service
+                  </Button>
+                </Link>
+                <Link href="/privacy">
+                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
+                    Privacy Policy
+                  </Button>
+                </Link>
+                <Link href="/disclaimer">
+                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
+                    Disclaimer
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Contact Info */}
+            <div>
+              <h3 className="font-semibold text-sm text-primary mb-3">Get in Touch</h3>
+              <div className="space-y-2 text-sm text-muted-foreground">
+                <p>support@retirementcalc.com</p>
+                <p>(555) 123-4567</p>
+                <p>123 Financial District<br />New York, NY 10005</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="border-t pt-6 mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-muted-foreground">
+              © 2024 Retirement Calculator. All rights reserved.
+            </p>
+            <p className="text-xs text-muted-foreground">
+              For educational purposes only. Not financial advice.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
