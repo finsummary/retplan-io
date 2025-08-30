@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 import { TrendingUp, Calculator, DollarSign, BarChart3 } from "lucide-react";
-import { FcGoogle } from "react-icons/fc";
 import { useLocation } from "wouter";
 import { useEffect } from "react";
 
@@ -175,27 +174,6 @@ export default function AuthPage() {
                   </Button>
                 </form>
               )}
-              
-              <div className="relative my-6">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
-                </div>
-              </div>
-              
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={() => window.location.href = '/api/auth/google'}
-                data-testid="button-google-auth"
-              >
-                <FcGoogle className="mr-2 h-4 w-4" />
-                Continue with Google
-              </Button>
               
               <div className="mt-4 text-center">
                 <Button
