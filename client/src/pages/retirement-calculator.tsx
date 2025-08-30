@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -59,16 +59,18 @@ export default function RetirementCalculator() {
     }
   };
 
-  // Real-time calculation on form changes
-  const watchedValues = form.watch();
-  
-  // Calculate on form change if all fields are valid
-  const isFormValid = form.formState.isValid && !form.formState.errors.currentAge && !form.formState.errors.retirementAge && !form.formState.errors.currentSavings && !form.formState.errors.desiredMonthlyIncome && !form.formState.errors.customRoi;
-  
-  if (isFormValid && !results) {
-    onSubmit(watchedValues);
-  }
+  // Calculate on initial load
+  useEffect(() => {
+    const defaultData = {
+      currentAge: 30,
+      retirementAge: 65,
+      currentSavings: 25000,
+      desiredMonthlyIncome: 4000,
+    };
+    onSubmit(defaultData);
+  }, []);
 
+  const watchedValues = form.watch();
   const insights = results ? getInsights(watchedValues, results) : [];
 
   const scenarioData = results ? [
@@ -113,7 +115,10 @@ export default function RetirementCalculator() {
                   {...form.register("currentAge", { valueAsNumber: true })}
                   onChange={(e) => {
                     form.setValue("currentAge", parseInt(e.target.value) || 0);
-                    if (isFormValid) onSubmit(form.getValues());
+                    const values = form.getValues();
+                    if (values.currentAge && values.retirementAge && values.retirementAge > values.currentAge) {
+                      onSubmit(values);
+                    }
                   }}
                 />
                 {form.formState.errors.currentAge && (
@@ -130,7 +135,10 @@ export default function RetirementCalculator() {
                   {...form.register("retirementAge", { valueAsNumber: true })}
                   onChange={(e) => {
                     form.setValue("retirementAge", parseInt(e.target.value) || 0);
-                    if (isFormValid) onSubmit(form.getValues());
+                    const values = form.getValues();
+                    if (values.currentAge && values.retirementAge && values.retirementAge > values.currentAge) {
+                      onSubmit(values);
+                    }
                   }}
                 />
                 {form.formState.errors.retirementAge && (
@@ -147,7 +155,10 @@ export default function RetirementCalculator() {
                   {...form.register("currentSavings", { valueAsNumber: true })}
                   onChange={(e) => {
                     form.setValue("currentSavings", parseFloat(e.target.value) || 0);
-                    if (isFormValid) onSubmit(form.getValues());
+                    const values = form.getValues();
+                    if (values.currentAge && values.retirementAge && values.retirementAge > values.currentAge) {
+                      onSubmit(values);
+                    }
                   }}
                 />
                 {form.formState.errors.currentSavings && (
@@ -164,7 +175,10 @@ export default function RetirementCalculator() {
                   {...form.register("desiredMonthlyIncome", { valueAsNumber: true })}
                   onChange={(e) => {
                     form.setValue("desiredMonthlyIncome", parseFloat(e.target.value) || 0);
-                    if (isFormValid) onSubmit(form.getValues());
+                    const values = form.getValues();
+                    if (values.currentAge && values.retirementAge && values.retirementAge > values.currentAge) {
+                      onSubmit(values);
+                    }
                   }}
                 />
                 {form.formState.errors.desiredMonthlyIncome && (
@@ -184,7 +198,10 @@ export default function RetirementCalculator() {
                   onChange={(e) => {
                     const value = parseFloat(e.target.value);
                     form.setValue("customRoi", isNaN(value) ? undefined : value);
-                    if (isFormValid) onSubmit(form.getValues());
+                    const values = form.getValues();
+                    if (values.currentAge && values.retirementAge && values.retirementAge > values.currentAge) {
+                      onSubmit(values);
+                    }
                   }}
                 />
                 {form.formState.errors.customRoi && (
@@ -402,7 +419,7 @@ export default function RetirementCalculator() {
                     <LineChart data={chartData}>
                       <XAxis dataKey="age" />
                       <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`} />
-                      <ChartTooltip content={ChartTooltipContent} />
+                      <ChartTooltip content={<ChartTooltipContent />} />
                       <Line type="monotone" dataKey="conservative" stroke="#f97316" strokeWidth={2} />
                       <Line type="monotone" dataKey="moderate" stroke="#3b82f6" strokeWidth={2} />
                       <Line type="monotone" dataKey="aggressive" stroke="#10b981" strokeWidth={2} />
@@ -431,7 +448,7 @@ export default function RetirementCalculator() {
                     <BarChart data={scenarioData}>
                       <XAxis dataKey="name" />
                       <YAxis tickFormatter={(value) => `$${value.toLocaleString()}`} />
-                      <ChartTooltip content={ChartTooltipContent} />
+                      <ChartTooltip content={<ChartTooltipContent />} />
                       <Bar dataKey="value" fill="#3b82f6" />
                     </BarChart>
                   </ResponsiveContainer>
