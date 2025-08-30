@@ -10,7 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, BarChart, Bar } from "recharts";
-import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertTriangle, Lightbulb, Save, Share, Bus, LogIn, LogOut, User, History, Trash2, Eye } from "lucide-react";
+import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertTriangle, Lightbulb, Save, Share, Bus, LogIn, LogOut, User, History, Trash2, Eye, Copy, Link } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -48,6 +48,7 @@ export default function RetirementCalculator() {
   const [results, setResults] = useState<RetirementResults | null>(null);
   const [chartData, setChartData] = useState<any[]>([]);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
   
   const { user, isAuthenticated, isLoading: authLoading, logoutMutation } = useAuth();
   const { toast } = useToast();
@@ -61,7 +62,7 @@ export default function RetirementCalculator() {
   });
   
   // Query for saved scenarios
-  const { data: savedScenarios = [] } = useQuery({
+  const { data: savedScenarios = [] } = useQuery<any[]>({
     queryKey: ["/api/scenarios"],
     enabled: isAuthenticated,
     retry: false,
@@ -137,16 +138,41 @@ export default function RetirementCalculator() {
     }
   };
 
-  // Calculate on initial load
+  // Calculate on initial load (with URL parameters or defaults)
   useEffect(() => {
-    const defaultData = {
-      currentAge: 30,
-      retirementAge: 65,
-      currentSavings: 25000,
-      desiredMonthlyIncome: 4000,
-    };
-    onSubmit(defaultData);
-  }, []);
+    const urlParams = new URLSearchParams(window.location.search);
+    const age = urlParams.get('age');
+    const retirement = urlParams.get('retirement');
+    const savings = urlParams.get('savings');
+    const income = urlParams.get('income');
+    
+    if (age && retirement && savings && income) {
+      // Load from shared URL
+      const sharedData = {
+        currentAge: parseInt(age),
+        retirementAge: parseInt(retirement),
+        currentSavings: parseFloat(savings),
+        desiredMonthlyIncome: parseFloat(income),
+      };
+      form.reset(sharedData);
+      onSubmit(sharedData);
+      
+      // Show toast to indicate shared data loaded
+      toast({
+        title: "Shared plan loaded!",
+        description: "Viewing shared retirement calculation",
+      });
+    } else {
+      // Default values
+      const defaultData = {
+        currentAge: 30,
+        retirementAge: 65,
+        currentSavings: 25000,
+        desiredMonthlyIncome: 4000,
+      };
+      onSubmit(defaultData);
+    }
+  }, [form, onSubmit, toast]);
 
   const watchedValues = form.watch();
   const insights = results ? getInsights(watchedValues, results) : [];
@@ -636,18 +662,18 @@ export default function RetirementCalculator() {
         </section>
 
         {/* Saved Scenarios */}
-        {isAuthenticated && savedScenarios && savedScenarios.length > 0 && (
+        {isAuthenticated && Array.isArray(savedScenarios) && savedScenarios.length > 0 && (
           <section className="p-4">
             <Card className="mb-4">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <History className="mr-2 text-primary" />
-                  Saved Scenarios ({savedScenarios.length})
+                  Saved Scenarios ({Array.isArray(savedScenarios) ? savedScenarios.length : 0})
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {savedScenarios.map((scenario: any) => (
+                  {Array.isArray(savedScenarios) && savedScenarios.map((scenario: any) => (
                     <div key={scenario.id} className="border rounded-lg p-3 space-y-2">
                       <div className="flex items-center justify-between">
                         <h4 className="font-medium text-sm" data-testid={`text-scenario-name-${scenario.id}`}>{scenario.name}</h4>
@@ -750,10 +776,117 @@ export default function RetirementCalculator() {
               </Button>
             )}
 
-            <Button variant="secondary" className="w-full" data-testid="button-share">
-              <Share className="mr-2 h-4 w-4" />
-              Share Results
-            </Button>
+            <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="secondary" 
+                  className="w-full" 
+                  disabled={!results}
+                  data-testid="button-share"
+                >
+                  <Share className="mr-2 h-4 w-4" />
+                  Share Results
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Share Your Retirement Plan</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  {results && (
+                    <>
+                      <div>
+                        <Label className="text-sm font-medium">Text Summary</Label>
+                        <div className="mt-2 p-3 bg-muted rounded-md text-sm">
+                          <div className="space-y-1">
+                            <p><strong>🎯 Retirement Plan Summary</strong></p>
+                            <p>Current Age: {watchedValues.currentAge} → Retirement Age: {watchedValues.retirementAge}</p>
+                            <p>Current Savings: ${watchedValues.currentSavings?.toLocaleString()}</p>
+                            <p>Target Monthly Income: ${watchedValues.desiredMonthlyIncome?.toLocaleString()}</p>
+                            <p></p>
+                            <p><strong>💰 Monthly Savings Required:</strong></p>
+                            <p>• Conservative (4%): ${Math.round(results.conservative.requiredMonthlySavings).toLocaleString()}/month</p>
+                            <p>• Moderate (7%): ${Math.round(results.moderate.requiredMonthlySavings).toLocaleString()}/month</p>
+                            <p>• Aggressive (10%): ${Math.round(results.aggressive.requiredMonthlySavings).toLocaleString()}/month</p>
+                            <p></p>
+                            <p><strong>📊 Total Needed at Retirement:</strong></p>
+                            <p>${Math.round(results.conservative.totalNeeded).toLocaleString()}</p>
+                            <p></p>
+                            <p>📱 Calculate your own: {window.location.origin}</p>
+                          </div>
+                        </div>
+                        <Button
+                          onClick={() => {
+                            const text = `🎯 Retirement Plan Summary
+Current Age: ${watchedValues.currentAge} → Retirement Age: ${watchedValues.retirementAge}
+Current Savings: $${watchedValues.currentSavings?.toLocaleString()}
+Target Monthly Income: $${watchedValues.desiredMonthlyIncome?.toLocaleString()}
+
+💰 Monthly Savings Required:
+• Conservative (4%): $${Math.round(results.conservative.requiredMonthlySavings).toLocaleString()}/month
+• Moderate (7%): $${Math.round(results.moderate.requiredMonthlySavings).toLocaleString()}/month
+• Aggressive (10%): $${Math.round(results.aggressive.requiredMonthlySavings).toLocaleString()}/month
+
+📊 Total Needed at Retirement: $${Math.round(results.conservative.totalNeeded).toLocaleString()}
+
+📱 Calculate your own: ${window.location.origin}`;
+                            navigator.clipboard.writeText(text);
+                            toast({
+                              title: "Copied!",
+                              description: "Text summary copied to clipboard",
+                            });
+                          }}
+                          className="w-full mt-2"
+                          variant="outline"
+                          data-testid="button-copy-text"
+                        >
+                          <Copy className="mr-2 h-4 w-4" />
+                          Copy Text Summary
+                        </Button>
+                      </div>
+                      
+                      <div>
+                        <Label className="text-sm font-medium">Shareable Link</Label>
+                        <div className="mt-2 flex gap-2">
+                          <Input
+                            value={`${window.location.origin}/?age=${watchedValues.currentAge}&retirement=${watchedValues.retirementAge}&savings=${watchedValues.currentSavings}&income=${watchedValues.desiredMonthlyIncome}`}
+                            readOnly
+                            className="text-xs"
+                            data-testid="input-share-url"
+                          />
+                          <Button
+                            onClick={() => {
+                              const url = `${window.location.origin}/?age=${watchedValues.currentAge}&retirement=${watchedValues.retirementAge}&savings=${watchedValues.currentSavings}&income=${watchedValues.desiredMonthlyIncome}`;
+                              navigator.clipboard.writeText(url);
+                              toast({
+                                title: "Copied!",
+                                description: "Shareable link copied to clipboard",
+                              });
+                            }}
+                            variant="outline"
+                            size="sm"
+                            data-testid="button-copy-url"
+                          >
+                            <Copy className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          This link will load the same calculation for others to view
+                        </p>
+                      </div>
+                    </>
+                  )}
+                  
+                  <Button 
+                    onClick={() => setShareDialogOpen(false)} 
+                    className="w-full"
+                    data-testid="button-close-share"
+                  >
+                    Close
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
 
             <Button variant="outline" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" data-testid="button-advisor">
               <Bus className="mr-2 h-4 w-4" />
