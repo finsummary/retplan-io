@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     onError: (error: Error) => {
       toast({
         title: "Registration failed",
-        description: error.message,
+        description: error.message || "Please try again with a different email",
         variant: "destructive",
       });
     },

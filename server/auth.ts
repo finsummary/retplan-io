@@ -1,6 +1,5 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Express } from "express";
 import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
@@ -73,46 +72,6 @@ export function setupAuth(app: Express) {
     }),
   );
 
-  // Google OAuth Strategy
-  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-    passport.use(
-      new GoogleStrategy({
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "/api/auth/google/callback"
-      }, async (accessToken, refreshToken, profile, done) => {
-        try {
-          // Check if user already exists with this Google ID
-          let user = await storage.getUserByGoogleId(profile.id);
-          
-          if (user) {
-            return done(null, user);
-          }
-          
-          // Check if user exists with this email
-          if (profile.emails && profile.emails[0]) {
-            user = await storage.getUserByEmail(profile.emails[0].value);
-            if (user) {
-              // Link Google account to existing user
-              // For now, we'll create a new user to avoid conflicts
-            }
-          }
-          
-          // Create new user
-          const newUser = await storage.createGoogleUser({
-            googleId: profile.id,
-            email: profile.emails?.[0]?.value || '',
-            name: profile.displayName,
-            profileImage: profile.photos?.[0]?.value,
-          });
-          
-          return done(null, newUser);
-        } catch (error) {
-          return done(error);
-        }
-      })
-    );
-  }
 
   passport.serializeUser((user, done) => done(null, user.id));
   passport.deserializeUser(async (id: string, done) => {
@@ -158,18 +117,6 @@ export function setupAuth(app: Express) {
     res.status(200).json({ id: user.id, email: user.email, name: user.name });
   });
 
-  // Google OAuth routes
-  app.get("/api/auth/google", 
-    passport.authenticate("google", { scope: ["profile", "email"] })
-  );
-
-  app.get("/api/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "/auth" }),
-    (req, res) => {
-      // Successful authentication, redirect to home
-      res.redirect("/");
-    }
-  );
 
   app.post("/api/logout", (req, res, next) => {
     req.logout((err) => {
