@@ -10,7 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, BarChart, Bar } from "recharts";
-import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertTriangle, Lightbulb, Save, Share, Bus, LogIn, LogOut, User, History, Trash2, Eye, Copy, Link } from "lucide-react";
+import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertTriangle, Lightbulb, Save, Share, Bus, LogIn, LogOut, User, History, Trash2, Eye, Copy, Link, Mail, MessageCircle } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -155,7 +155,17 @@ export default function RetirementCalculator() {
         desiredMonthlyIncome: parseFloat(income),
       };
       form.reset(sharedData);
-      onSubmit(sharedData);
+      
+      // Calculate results
+      try {
+        const calculatedResults = calculateRetirementScenarios(sharedData);
+        setResults(calculatedResults);
+        
+        const projectionData = generateGrowthProjectionData(sharedData, calculatedResults);
+        setChartData(projectionData);
+      } catch (error) {
+        console.error("Calculation error:", error);
+      }
       
       // Show toast to indicate shared data loaded
       toast({
@@ -170,9 +180,18 @@ export default function RetirementCalculator() {
         currentSavings: 25000,
         desiredMonthlyIncome: 4000,
       };
-      onSubmit(defaultData);
+      
+      try {
+        const calculatedResults = calculateRetirementScenarios(defaultData);
+        setResults(calculatedResults);
+        
+        const projectionData = generateGrowthProjectionData(defaultData, calculatedResults);
+        setChartData(projectionData);
+      } catch (error) {
+        console.error("Calculation error:", error);
+      }
     }
-  }, [form, onSubmit, toast]);
+  }, []);
 
   const watchedValues = form.watch();
   const insights = results ? getInsights(watchedValues, results) : [];
@@ -796,57 +815,104 @@ export default function RetirementCalculator() {
                   {results && (
                     <>
                       <div>
-                        <Label className="text-sm font-medium">Text Summary</Label>
-                        <div className="mt-2 p-3 bg-muted rounded-md text-sm">
-                          <div className="space-y-1">
-                            <p><strong>🎯 Retirement Plan Summary</strong></p>
-                            <p>Current Age: {watchedValues.currentAge} → Retirement Age: {watchedValues.retirementAge}</p>
-                            <p>Current Savings: ${watchedValues.currentSavings?.toLocaleString()}</p>
-                            <p>Target Monthly Income: ${watchedValues.desiredMonthlyIncome?.toLocaleString()}</p>
-                            <p></p>
-                            <p><strong>💰 Monthly Savings Required:</strong></p>
-                            <p>• Conservative (4%): ${Math.round(results.conservative.requiredMonthlySavings).toLocaleString()}/month</p>
-                            <p>• Moderate (7%): ${Math.round(results.moderate.requiredMonthlySavings).toLocaleString()}/month</p>
-                            <p>• Aggressive (10%): ${Math.round(results.aggressive.requiredMonthlySavings).toLocaleString()}/month</p>
-                            <p></p>
-                            <p><strong>📊 Total Needed at Retirement:</strong></p>
-                            <p>${Math.round(results.conservative.totalNeeded).toLocaleString()}</p>
-                            <p></p>
-                            <p>📱 Calculate your own: {window.location.origin}</p>
-                          </div>
+                        <Label className="text-sm font-medium">Share on Social Media & Email</Label>
+                        <div className="mt-2 grid grid-cols-2 gap-2">
+                          <Button
+                            onClick={() => {
+                              const text = `Check out my retirement plan! I need $${Math.round(results.moderate.requiredMonthlySavings).toLocaleString()}/month to retire comfortably. Calculate yours:`;
+                              const url = `${window.location.origin}/?age=${watchedValues.currentAge}&retirement=${watchedValues.retirementAge}&savings=${watchedValues.currentSavings}&income=${watchedValues.desiredMonthlyIncome}`;
+                              window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+                            }}
+                            variant="outline"
+                            size="sm"
+                            className="text-blue-500"
+                            data-testid="button-share-twitter"
+                          >
+                            𝕏 Twitter
+                          </Button>
+                          
+                          <Button
+                            onClick={() => {
+                              const url = `${window.location.origin}/?age=${watchedValues.currentAge}&retirement=${watchedValues.retirementAge}&savings=${watchedValues.currentSavings}&income=${watchedValues.desiredMonthlyIncome}`;
+                              window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+                            }}
+                            variant="outline"
+                            size="sm"
+                            className="text-blue-600"
+                            data-testid="button-share-facebook"
+                          >
+                            📘 Facebook
+                          </Button>
+                          
+                          <Button
+                            onClick={() => {
+                              const text = `Retirement Planning Update: I need $${Math.round(results.moderate.requiredMonthlySavings).toLocaleString()}/month to meet my retirement goals. Check your numbers:`;
+                              const url = `${window.location.origin}/?age=${watchedValues.currentAge}&retirement=${watchedValues.retirementAge}&savings=${watchedValues.currentSavings}&income=${watchedValues.desiredMonthlyIncome}`;
+                              window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&summary=${encodeURIComponent(text)}`, '_blank');
+                            }}
+                            variant="outline"
+                            size="sm"
+                            className="text-blue-700"
+                            data-testid="button-share-linkedin"
+                          >
+                            💼 LinkedIn
+                          </Button>
+                          
+                          <Button
+                            onClick={() => {
+                              const text = `🎯 My Retirement Plan: Need $${Math.round(results.moderate.requiredMonthlySavings).toLocaleString()}/month to save. Calculate yours here:`;
+                              const url = `${window.location.origin}/?age=${watchedValues.currentAge}&retirement=${watchedValues.retirementAge}&savings=${watchedValues.currentSavings}&income=${watchedValues.desiredMonthlyIncome}`;
+                              window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
+                            }}
+                            variant="outline"
+                            size="sm"
+                            className="text-green-600"
+                            data-testid="button-share-whatsapp"
+                          >
+                            <MessageCircle className="mr-1 h-3 w-3" />
+                            WhatsApp
+                          </Button>
                         </div>
+                      </div>
+                      
+                      <div>
+                        <Label className="text-sm font-medium">Send via Email</Label>
                         <Button
                           onClick={() => {
-                            const text = `🎯 Retirement Plan Summary
-Current Age: ${watchedValues.currentAge} → Retirement Age: ${watchedValues.retirementAge}
-Current Savings: $${watchedValues.currentSavings?.toLocaleString()}
-Target Monthly Income: $${watchedValues.desiredMonthlyIncome?.toLocaleString()}
+                            const subject = "My Retirement Plan Calculation";
+                            const body = `Hi there!
+
+I just calculated my retirement plan and wanted to share it with you:
+
+🎯 My Retirement Plan Summary:
+• Current Age: ${watchedValues.currentAge} → Retirement Age: ${watchedValues.retirementAge}
+• Current Savings: $${watchedValues.currentSavings?.toLocaleString()}
+• Target Monthly Income: $${watchedValues.desiredMonthlyIncome?.toLocaleString()}
 
 💰 Monthly Savings Required:
 • Conservative (4%): $${Math.round(results.conservative.requiredMonthlySavings).toLocaleString()}/month
-• Moderate (7%): $${Math.round(results.moderate.requiredMonthlySavings).toLocaleString()}/month
+• Moderate (7%): $${Math.round(results.moderate.requiredMonthlySavings).toLocaleString()}/month  
 • Aggressive (10%): $${Math.round(results.aggressive.requiredMonthlySavings).toLocaleString()}/month
 
 📊 Total Needed at Retirement: $${Math.round(results.conservative.totalNeeded).toLocaleString()}
 
-📱 Calculate your own: ${window.location.origin}`;
-                            navigator.clipboard.writeText(text);
-                            toast({
-                              title: "Copied!",
-                              description: "Text summary copied to clipboard",
-                            });
+You can view my full calculation and create your own here:
+${window.location.origin}/?age=${watchedValues.currentAge}&retirement=${watchedValues.retirementAge}&savings=${watchedValues.currentSavings}&income=${watchedValues.desiredMonthlyIncome}
+
+Best regards!`;
+                            window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
                           }}
-                          className="w-full mt-2"
                           variant="outline"
-                          data-testid="button-copy-text"
+                          className="w-full mt-2"
+                          data-testid="button-share-email"
                         >
-                          <Copy className="mr-2 h-4 w-4" />
-                          Copy Text Summary
+                          <Mail className="mr-2 h-4 w-4" />
+                          Send via Email
                         </Button>
                       </div>
                       
                       <div>
-                        <Label className="text-sm font-medium">Shareable Link</Label>
+                        <Label className="text-sm font-medium">Copy Link Only</Label>
                         <div className="mt-2 flex gap-2">
                           <Input
                             value={`${window.location.origin}/?age=${watchedValues.currentAge}&retirement=${watchedValues.retirementAge}&savings=${watchedValues.currentSavings}&income=${watchedValues.desiredMonthlyIncome}`}
@@ -870,9 +936,6 @@ Target Monthly Income: $${watchedValues.desiredMonthlyIncome?.toLocaleString()}
                             <Copy className="h-4 w-4" />
                           </Button>
                         </div>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          This link will load the same calculation for others to view
-                        </p>
                       </div>
                     </>
                   )}
