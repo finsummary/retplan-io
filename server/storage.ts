@@ -16,8 +16,10 @@ import { eq, and } from "drizzle-orm";
 export interface IStorage {
   // User operations
   getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
+  getUserByGoogleId(googleId: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  createGoogleUser(googleData: { googleId: string; email: string; name?: string; profileImage?: string }): Promise<User>;
   // Scenario operations
   saveScenario(scenario: InsertSavedScenario): Promise<SavedScenario>;
   getUserScenarios(userId: string): Promise<SavedScenario[]>;
@@ -31,8 +33,13 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user;
+  }
+
+  async getUserByGoogleId(googleId: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.googleId, googleId));
     return user;
   }
 
@@ -44,11 +51,22 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
+  async createGoogleUser(googleData: { googleId: string; email: string; name?: string; profileImage?: string }): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values(googleData)
+      .returning();
+    return user;
+  }
+
   // Scenario operations
   async saveScenario(scenario: InsertSavedScenario): Promise<SavedScenario> {
     const [savedScenario] = await db
       .insert(savedScenarios)
-      .values(scenario)
+      .values({
+        ...scenario,
+        retirementScenarios: scenario.retirementScenarios || {}
+      })
       .returning();
     return savedScenario;
   }

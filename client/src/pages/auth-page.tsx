@@ -8,18 +8,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 import { TrendingUp, Calculator, DollarSign, BarChart3 } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
 import { useLocation } from "wouter";
 import { useEffect } from "react";
 
 const loginSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters"),
+  email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 const registerSchema = loginSchema.extend({
-  email: z.string().email("Invalid email address").optional(),
-  firstName: z.string().optional(),
-  lastName: z.string().optional(),
+  name: z.string().optional(),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -40,7 +39,7 @@ export default function AuthPage() {
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -48,11 +47,9 @@ export default function AuthPage() {
   const registerForm = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      username: "",
-      password: "",
       email: "",
-      firstName: "",
-      lastName: "",
+      password: "",
+      name: "",
     },
   });
 
@@ -89,16 +86,17 @@ export default function AuthPage() {
               {isLogin ? (
                 <form onSubmit={loginForm.handleSubmit(onLogin)} className="space-y-4">
                   <div>
-                    <Label htmlFor="login-username">Username</Label>
+                    <Label htmlFor="login-email">Email</Label>
                     <Input
-                      id="login-username"
-                      placeholder="Enter your username"
-                      {...loginForm.register("username")}
-                      data-testid="input-login-username"
+                      id="login-email"
+                      type="email"
+                      placeholder="Enter your email"
+                      {...loginForm.register("email")}
+                      data-testid="input-login-email"
                     />
-                    {loginForm.formState.errors.username && (
+                    {loginForm.formState.errors.email && (
                       <p className="text-sm text-destructive mt-1">
-                        {loginForm.formState.errors.username.message}
+                        {loginForm.formState.errors.email.message}
                       </p>
                     )}
                   </div>
@@ -129,21 +127,7 @@ export default function AuthPage() {
               ) : (
                 <form onSubmit={registerForm.handleSubmit(onRegister)} className="space-y-4">
                   <div>
-                    <Label htmlFor="register-username">Username</Label>
-                    <Input
-                      id="register-username"
-                      placeholder="Choose a username"
-                      {...registerForm.register("username")}
-                      data-testid="input-register-username"
-                    />
-                    {registerForm.formState.errors.username && (
-                      <p className="text-sm text-destructive mt-1">
-                        {registerForm.formState.errors.username.message}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <Label htmlFor="register-email">Email (Optional)</Label>
+                    <Label htmlFor="register-email">Email</Label>
                     <Input
                       id="register-email"
                       type="email"
@@ -157,25 +141,14 @@ export default function AuthPage() {
                       </p>
                     )}
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="register-firstName">First Name</Label>
-                      <Input
-                        id="register-firstName"
-                        placeholder="First name"
-                        {...registerForm.register("firstName")}
-                        data-testid="input-register-firstname"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="register-lastName">Last Name</Label>
-                      <Input
-                        id="register-lastName"
-                        placeholder="Last name"
-                        {...registerForm.register("lastName")}
-                        data-testid="input-register-lastname"
-                      />
-                    </div>
+                  <div>
+                    <Label htmlFor="register-name">Name (Optional)</Label>
+                    <Input
+                      id="register-name"
+                      placeholder="Your name"
+                      {...registerForm.register("name")}
+                      data-testid="input-register-name"
+                    />
                   </div>
                   <div>
                     <Label htmlFor="register-password">Password</Label>
@@ -202,6 +175,27 @@ export default function AuthPage() {
                   </Button>
                 </form>
               )}
+              
+              <div className="relative my-6">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
+                </div>
+              </div>
+              
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => window.location.href = '/api/auth/google'}
+                data-testid="button-google-auth"
+              >
+                <FcGoogle className="mr-2 h-4 w-4" />
+                Continue with Google
+              </Button>
               
               <div className="mt-4 text-center">
                 <Button

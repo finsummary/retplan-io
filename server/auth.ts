@@ -1,5 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Express } from "express";
 import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
@@ -33,7 +34,8 @@ export function setupAuth(app: Express) {
   const PostgresSessionStore = connectPg(session);
   const sessionStore = new PostgresSessionStore({
     conString: process.env.DATABASE_URL,
-    createTableIfMissing: true,
+    createTableIfMissing: false,
+    tableName: "sessions",
   });
 
   const sessionSettings: session.SessionOptions = {
@@ -54,10 +56,13 @@ export function setupAuth(app: Express) {
   app.use(passport.session());
 
   passport.use(
-    new LocalStrategy(async (username, password, done) => {
+    new LocalStrategy({
+      usernameField: 'email',
+      passwordField: 'password'
+    }, async (email, password, done) => {
       try {
-        const user = await storage.getUserByUsername(username);
-        if (!user || !(await comparePasswords(password, user.password))) {
+        const user = await storage.getUserByEmail(email);
+        if (!user || !user.password || !(await comparePasswords(password, user.password))) {
           return done(null, false);
         } else {
           return done(null, user);
@@ -67,6 +72,47 @@ export function setupAuth(app: Express) {
       }
     }),
   );
+
+  // Google OAuth Strategy
+  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    passport.use(
+      new GoogleStrategy({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "/api/auth/google/callback"
+      }, async (accessToken, refreshToken, profile, done) => {
+        try {
+          // Check if user already exists with this Google ID
+          let user = await storage.getUserByGoogleId(profile.id);
+          
+          if (user) {
+            return done(null, user);
+          }
+          
+          // Check if user exists with this email
+          if (profile.emails && profile.emails[0]) {
+            user = await storage.getUserByEmail(profile.emails[0].value);
+            if (user) {
+              // Link Google account to existing user
+              // For now, we'll create a new user to avoid conflicts
+            }
+          }
+          
+          // Create new user
+          const newUser = await storage.createGoogleUser({
+            googleId: profile.id,
+            email: profile.emails?.[0]?.value || '',
+            name: profile.displayName,
+            profileImage: profile.photos?.[0]?.value,
+          });
+          
+          return done(null, newUser);
+        } catch (error) {
+          return done(error);
+        }
+      })
+    );
+  }
 
   passport.serializeUser((user, done) => done(null, user.id));
   passport.deserializeUser(async (id: string, done) => {
@@ -80,28 +126,26 @@ export function setupAuth(app: Express) {
 
   app.post("/api/register", async (req, res, next) => {
     try {
-      const { username, email, password, firstName, lastName } = req.body;
+      const { email, password, name } = req.body;
       
-      if (!username || !password) {
-        return res.status(400).json({ message: "Username and password are required" });
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
       }
 
-      const existingUser = await storage.getUserByUsername(username);
+      const existingUser = await storage.getUserByEmail(email);
       if (existingUser) {
-        return res.status(400).json({ message: "Username already exists" });
+        return res.status(400).json({ message: "Email already exists" });
       }
 
       const user = await storage.createUser({
-        username,
         email,
         password: await hashPassword(password),
-        firstName,
-        lastName,
+        name,
       });
 
       req.login(user, (err) => {
         if (err) return next(err);
-        res.status(201).json({ id: user.id, username: user.username, email: user.email, firstName: user.firstName, lastName: user.lastName });
+        res.status(201).json({ id: user.id, email: user.email, name: user.name });
       });
     } catch (error) {
       console.error("Registration error:", error);
@@ -111,8 +155,21 @@ export function setupAuth(app: Express) {
 
   app.post("/api/login", passport.authenticate("local"), (req, res) => {
     const user = req.user as SelectUser;
-    res.status(200).json({ id: user.id, username: user.username, email: user.email, firstName: user.firstName, lastName: user.lastName });
+    res.status(200).json({ id: user.id, email: user.email, name: user.name });
   });
+
+  // Google OAuth routes
+  app.get("/api/auth/google", 
+    passport.authenticate("google", { scope: ["profile", "email"] })
+  );
+
+  app.get("/api/auth/google/callback",
+    passport.authenticate("google", { failureRedirect: "/auth" }),
+    (req, res) => {
+      // Successful authentication, redirect to home
+      res.redirect("/");
+    }
+  );
 
   app.post("/api/logout", (req, res, next) => {
     req.logout((err) => {
@@ -124,6 +181,6 @@ export function setupAuth(app: Express) {
   app.get("/api/user", (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
     const user = req.user as SelectUser;
-    res.json({ id: user.id, username: user.username, email: user.email, firstName: user.firstName, lastName: user.lastName });
+    res.json({ id: user.id, email: user.email, name: user.name, profileImage: user.profileImage });
   });
 }

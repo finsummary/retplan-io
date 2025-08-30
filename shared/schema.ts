@@ -24,14 +24,14 @@ export const sessions = pgTable(
   (table) => [index("IDX_session_expire").on(table.expire)],
 );
 
-// User storage table for username/password authentication
+// User storage table for email/password and Google OAuth authentication
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: varchar("username").unique().notNull(),
-  email: varchar("email").unique(),
-  password: varchar("password").notNull(),
-  firstName: varchar("first_name"),
-  lastName: varchar("last_name"),
+  email: varchar("email").unique().notNull(),
+  password: varchar("password"),
+  googleId: varchar("google_id").unique(),
+  name: varchar("name"),
+  profileImage: varchar("profile_image"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -66,12 +66,14 @@ export const insertSavedScenarioSchema = createInsertSchema(savedScenarios).omit
 
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
+  googleId: true,
+  profileImage: true,
   createdAt: true,
   updatedAt: true,
 }).extend({
-  username: z.string().min(3, "Username must be at least 3 characters"),
+  email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  email: z.string().email("Invalid email address").optional(),
+  name: z.string().optional(),
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
