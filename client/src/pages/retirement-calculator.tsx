@@ -174,7 +174,7 @@ export default function RetirementCalculator() {
                   <div className="flex items-center space-x-2 text-sm">
                     <User className="w-5 h-5" data-testid="icon-user-default" />
                     <span data-testid="text-user-name">
-                      {user.firstName || user.username || 'User'}
+                      {user.name || user.email || 'User'}
                     </span>
                   </div>
                 )}
@@ -527,7 +527,7 @@ export default function RetirementCalculator() {
                     <LineChart data={chartData}>
                       <XAxis dataKey="age" />
                       <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <ChartTooltip />
                       <Line type="monotone" dataKey="conservative" stroke="#f97316" strokeWidth={2} />
                       <Line type="monotone" dataKey="moderate" stroke="#3b82f6" strokeWidth={2} />
                       <Line type="monotone" dataKey="aggressive" stroke="#10b981" strokeWidth={2} />
@@ -556,7 +556,7 @@ export default function RetirementCalculator() {
                     <BarChart data={scenarioData}>
                       <XAxis dataKey="name" />
                       <YAxis tickFormatter={(value) => `$${value.toLocaleString()}`} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <ChartTooltip />
                       <Bar dataKey="value" fill="#3b82f6" />
                     </BarChart>
                   </ResponsiveContainer>
