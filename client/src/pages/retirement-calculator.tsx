@@ -967,20 +967,14 @@ Best regards!`;
             <div>
               <h3 className="font-semibold text-sm text-primary mb-3">Getting Started</h3>
               <div className="space-y-2">
-                <Link href="/guide">
-                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
-                    Calculator Guide
-                  </Button>
+                <Link href="/guide" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Calculator Guide
                 </Link>
-                <Link href="/faq">
-                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
-                    FAQ
-                  </Button>
+                <Link href="/faq" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  FAQ
                 </Link>
-                <Link href="/blog">
-                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
-                    Planning Resources
-                  </Button>
+                <Link href="/blog" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Planning Resources
                 </Link>
               </div>
             </div>
@@ -989,15 +983,11 @@ Best regards!`;
             <div>
               <h3 className="font-semibold text-sm text-primary mb-3">Company</h3>
               <div className="space-y-2">
-                <Link href="/about">
-                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
-                    About Us
-                  </Button>
+                <Link href="/about" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  About Us
                 </Link>
-                <Link href="/contact">
-                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
-                    Contact
-                  </Button>
+                <Link href="/contact" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Contact
                 </Link>
               </div>
             </div>
@@ -1006,20 +996,14 @@ Best regards!`;
             <div>
               <h3 className="font-semibold text-sm text-primary mb-3">Legal</h3>
               <div className="space-y-2">
-                <Link href="/terms">
-                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
-                    Terms of Service
-                  </Button>
+                <Link href="/terms" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Terms of Service
                 </Link>
-                <Link href="/privacy">
-                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
-                    Privacy Policy
-                  </Button>
+                <Link href="/privacy" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Privacy Policy
                 </Link>
-                <Link href="/disclaimer">
-                  <Button variant="ghost" size="sm" className="justify-start p-0 h-auto font-normal text-muted-foreground hover:text-primary">
-                    Disclaimer
-                  </Button>
+                <Link href="/disclaimer" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Disclaimer
                 </Link>
               </div>
             </div>
