@@ -10,7 +10,13 @@ import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, BarChart, Bar } from "recharts";
-import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertTriangle, Lightbulb, Save, Share, Bus } from "lucide-react";
+import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertTriangle, Lightbulb, Save, Share, Bus, LogIn, LogOut, User } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useAuth } from "@/hooks/useAuth";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { isUnauthorizedError } from "@/lib/authUtils";
 import { 
   calculateRetirementScenarios, 
   generateGrowthProjectionData, 
@@ -32,9 +38,81 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+const saveScenarioSchema = z.object({
+  name: z.string().min(1, "Scenario name is required"),
+});
+
+type SaveFormData = z.infer<typeof saveScenarioSchema>;
+
 export default function RetirementCalculator() {
   const [results, setResults] = useState<RetirementResults | null>(null);
   const [chartData, setChartData] = useState<any[]>([]);
+  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+  
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  
+  const saveForm = useForm<SaveFormData>({
+    resolver: zodResolver(saveScenarioSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
+  
+  // Query for saved scenarios
+  const { data: savedScenarios } = useQuery({
+    queryKey: ["/api/scenarios"],
+    enabled: isAuthenticated,
+    retry: false,
+  });
+  
+  // Mutation for saving scenarios
+  const saveScenarioMutation = useMutation({
+    mutationFn: async (data: { name: string }) => {
+      if (!results) throw new Error("No calculation results to save");
+      
+      const scenarioData = {
+        name: data.name,
+        currentAge: form.getValues("currentAge"),
+        retirementAge: form.getValues("retirementAge"),
+        currentSavings: form.getValues("currentSavings"),
+        desiredIncome: form.getValues("desiredMonthlyIncome"),
+        monthlyContribution: results.conservative.requiredMonthlySavings,
+        retirementScenarios: results,
+      };
+      
+      const response = await apiRequest("POST", "/api/scenarios", scenarioData);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Scenario Saved",
+        description: "Your retirement scenario has been saved successfully.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/scenarios"] });
+      setSaveDialogOpen(false);
+      saveForm.reset();
+    },
+    onError: (error) => {
+      if (isUnauthorizedError(error)) {
+        toast({
+          title: "Unauthorized",
+          description: "You are logged out. Logging in again...",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          window.location.href = "/api/login";
+        }, 500);
+        return;
+      }
+      toast({
+        title: "Save Failed",
+        description: "Failed to save your scenario. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -89,9 +167,47 @@ export default function RetirementCalculator() {
             <TrendingUp className="text-xl" />
             <h1 className="text-xl font-bold">Retirement Calculator</h1>
           </div>
-          <Button variant="ghost" size="icon" className="hover:bg-primary/90">
-            <Info className="text-lg" />
-          </Button>
+          <div className="flex items-center space-x-2">
+            {isAuthenticated ? (
+              <>
+                {user && (
+                  <div className="flex items-center space-x-2 text-sm">
+                    {user.profileImageUrl ? (
+                      <img 
+                        src={user.profileImageUrl} 
+                        alt="Profile" 
+                        className="w-6 h-6 rounded-full object-cover"
+                        data-testid="img-user-avatar"
+                      />
+                    ) : (
+                      <User className="w-5 h-5" data-testid="icon-user-default" />
+                    )}
+                    <span data-testid="text-user-name">
+                      {user.firstName || user.email?.split('@')[0] || 'User'}
+                    </span>
+                  </div>
+                )}
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => window.location.href = '/api/logout'}
+                  data-testid="button-logout"
+                >
+                  <LogOut className="w-4 h-4" />
+                </Button>
+              </>
+            ) : (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => window.location.href = '/api/login'}
+                data-testid="button-login"
+              >
+                <LogIn className="w-4 h-4 mr-1" />
+                Login
+              </Button>
+            )}
+          </div>
         </div>
       </header>
 
@@ -530,10 +646,60 @@ export default function RetirementCalculator() {
         {/* Action Buttons */}
         <section className="p-4 pb-8">
           <div className="space-y-3">
-            <Button className="w-full" data-testid="button-save">
-              <Save className="mr-2 h-4 w-4" />
-              Save This Calculation
-            </Button>
+            {isAuthenticated ? (
+              <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button 
+                    className="w-full" 
+                    disabled={!results || saveScenarioMutation.isPending}
+                    data-testid="button-save-scenario"
+                  >
+                    <Save className="mr-2 h-4 w-4" />
+                    {saveScenarioMutation.isPending ? "Saving..." : "Save Scenario"}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Save Retirement Scenario</DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={saveForm.handleSubmit((data) => saveScenarioMutation.mutate(data))}>
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="scenario-name">Scenario Name</Label>
+                        <Input
+                          id="scenario-name"
+                          placeholder="e.g., Current Plan, Aggressive Plan"
+                          {...saveForm.register("name")}
+                          data-testid="input-scenario-name"
+                        />
+                        {saveForm.formState.errors.name && (
+                          <p className="text-sm text-destructive mt-1">
+                            {saveForm.formState.errors.name.message}
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex gap-2">
+                        <Button type="submit" disabled={saveScenarioMutation.isPending} data-testid="button-confirm-save">
+                          {saveScenarioMutation.isPending ? "Saving..." : "Save Scenario"}
+                        </Button>
+                        <Button type="button" variant="outline" onClick={() => setSaveDialogOpen(false)} data-testid="button-cancel-save">
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  </form>
+                </DialogContent>
+              </Dialog>
+            ) : (
+              <Button 
+                className="w-full" 
+                onClick={() => window.location.href = '/api/login'}
+                data-testid="button-login-to-save"
+              >
+                <LogIn className="mr-2 h-4 w-4" />
+                Login to Save Scenarios
+              </Button>
+            )}
 
             <Button variant="secondary" className="w-full" data-testid="button-share">
               <Share className="mr-2 h-4 w-4" />

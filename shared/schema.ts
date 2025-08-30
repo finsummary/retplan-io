@@ -1,40 +1,70 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, real, integer, timestamp } from "drizzle-orm/pg-core";
+import { sql } from 'drizzle-orm';
+import {
+  index,
+  jsonb,
+  pgTable,
+  timestamp,
+  varchar,
+  text,
+  real,
+  integer,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Session storage table.
+// (IMPORTANT) This table is mandatory for authentication, don't drop it.
+export const sessions = pgTable(
+  "sessions",
+  {
+    sid: varchar("sid").primaryKey(),
+    sess: jsonb("sess").notNull(),
+    expire: timestamp("expire").notNull(),
+  },
+  (table) => [index("IDX_session_expire").on(table.expire)],
+);
+
+// User storage table.
+// (IMPORTANT) This table is mandatory for authentication, don't drop it.
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+  email: varchar("email").unique(),
+  firstName: varchar("first_name"),
+  lastName: varchar("last_name"),
+  profileImageUrl: varchar("profile_image_url"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const retirementCalculations = pgTable("retirement_calculations", {
+export const savedScenarios = pgTable("saved_scenarios", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").references(() => users.id),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  name: varchar("name").notNull(),
   currentAge: integer("current_age").notNull(),
   retirementAge: integer("retirement_age").notNull(),
   currentSavings: real("current_savings").notNull(),
-  desiredMonthlyIncome: real("desired_monthly_income").notNull(),
+  desiredIncome: real("desired_income").notNull(),
+  monthlyContribution: real("monthly_contribution").notNull(),
+  retirementScenarios: jsonb("retirement_scenarios").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
-});
-
-export const insertRetirementCalculationSchema = createInsertSchema(retirementCalculations).omit({
+export const insertSavedScenarioSchema = createInsertSchema(savedScenarios).omit({
   id: true,
   createdAt: true,
+  updatedAt: true,
 }).extend({
+  name: z.string().min(1, "Scenario name is required"),
   currentAge: z.number().min(18).max(100),
   retirementAge: z.number().min(50).max(100),
   currentSavings: z.number().min(0),
-  desiredMonthlyIncome: z.number().min(100),
+  desiredIncome: z.number().min(100),
+  monthlyContribution: z.number().min(0),
+  retirementScenarios: z.any(),
 });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
+export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
-export type InsertRetirementCalculation = z.infer<typeof insertRetirementCalculationSchema>;
-export type RetirementCalculation = typeof retirementCalculations.$inferSelect;
+export type InsertSavedScenario = z.infer<typeof insertSavedScenarioSchema>;
+export type SavedScenario = typeof savedScenarios.$inferSelect;
