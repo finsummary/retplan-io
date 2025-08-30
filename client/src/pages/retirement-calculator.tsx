@@ -49,7 +49,7 @@ export default function RetirementCalculator() {
   const [chartData, setChartData] = useState<any[]>([]);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading, logoutMutation } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
@@ -172,25 +172,17 @@ export default function RetirementCalculator() {
               <>
                 {user && (
                   <div className="flex items-center space-x-2 text-sm">
-                    {user.profileImageUrl ? (
-                      <img 
-                        src={user.profileImageUrl} 
-                        alt="Profile" 
-                        className="w-6 h-6 rounded-full object-cover"
-                        data-testid="img-user-avatar"
-                      />
-                    ) : (
-                      <User className="w-5 h-5" data-testid="icon-user-default" />
-                    )}
+                    <User className="w-5 h-5" data-testid="icon-user-default" />
                     <span data-testid="text-user-name">
-                      {user.firstName || user.email?.split('@')[0] || 'User'}
+                      {user.firstName || user.username || 'User'}
                     </span>
                   </div>
                 )}
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  onClick={() => window.location.href = '/api/logout'}
+                  onClick={() => logoutMutation.mutate()}
+                  disabled={logoutMutation.isPending}
                   data-testid="button-logout"
                 >
                   <LogOut className="w-4 h-4" />
@@ -200,7 +192,7 @@ export default function RetirementCalculator() {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                onClick={() => window.location.href = '/api/login'}
+                onClick={() => window.location.href = '/auth'}
                 data-testid="button-login"
               >
                 <LogIn className="w-4 h-4 mr-1" />
@@ -693,7 +685,7 @@ export default function RetirementCalculator() {
             ) : (
               <Button 
                 className="w-full" 
-                onClick={() => window.location.href = '/api/login'}
+                onClick={() => window.location.href = '/auth'}
                 data-testid="button-login-to-save"
               >
                 <LogIn className="mr-2 h-4 w-4" />
