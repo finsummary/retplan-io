@@ -115,6 +115,39 @@ export default function RetirementCalculator() {
     },
   });
 
+  // Mutation for deleting scenarios
+  const deleteScenarioMutation = useMutation({
+    mutationFn: async (scenarioId: string) => {
+      const response = await apiRequest("DELETE", `/api/scenarios/${scenarioId}`);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Scenario Deleted",
+        description: "Your retirement scenario has been deleted successfully.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/scenarios"] });
+    },
+    onError: (error) => {
+      if (isUnauthorizedError(error)) {
+        toast({
+          title: "Unauthorized",
+          description: "You are logged out. Logging in again...",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          window.location.href = "/api/login";
+        }, 500);
+        return;
+      }
+      toast({
+        title: "Delete Failed",
+        description: "Failed to delete your scenario. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -720,6 +753,20 @@ export default function RetirementCalculator() {
                             data-testid={`button-load-scenario-${scenario.id}`}
                           >
                             <Eye className="w-3 h-3" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              if (confirm("Are you sure you want to delete this scenario?")) {
+                                deleteScenarioMutation.mutate(scenario.id);
+                              }
+                            }}
+                            disabled={deleteScenarioMutation.isPending}
+                            data-testid={`button-delete-scenario-${scenario.id}`}
+                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                          >
+                            <Trash2 className="w-3 h-3" />
                           </Button>
                         </div>
                       </div>

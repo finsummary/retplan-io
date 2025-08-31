@@ -95,14 +95,14 @@ export default function About() {
                   that anyone could use, regardless of their financial background.
                 </p>
                 <p className="text-muted-foreground">
-                  Today, RetPlan.io has helped thousands of people take control of their retirement planning, 
-                  from college graduates just starting their careers to professionals preparing for retirement.
+                  RetPlan.io is designed to help people at every stage of their career take control of their retirement planning, 
+                  from college graduates just starting out to professionals preparing for retirement.
                 </p>
               </div>
               <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-8 text-center">
                 <TrendingUp className="h-16 w-16 text-primary mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-primary mb-2">10,000+</h3>
-                <p className="text-muted-foreground">People have used RetPlan.io to plan their retirement</p>
+                <h3 className="text-2xl font-bold text-primary mb-2">Ready to Launch</h3>
+                <p className="text-muted-foreground">Join us as we help people plan their financial future</p>
               </div>
             </div>
           </CardContent>
@@ -179,7 +179,7 @@ export default function About() {
           <CardContent className="p-8 text-center">
             <h3 className="text-2xl font-bold mb-4">Ready to Start Your Journey?</h3>
             <p className="mb-6 opacity-90 max-w-2xl mx-auto">
-              Join thousands of smart savers who have taken control of their retirement planning. 
+              Join smart savers who are taking control of their retirement planning. 
               Start with RetPlan.io and take the first step toward financial security.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
