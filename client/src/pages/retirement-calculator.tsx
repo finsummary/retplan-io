@@ -967,15 +967,36 @@ Best regards!`;
             <div>
               <h3 className="font-semibold text-sm text-primary mb-3">Getting Started</h3>
               <div className="space-y-2">
-                <Link href="/guide" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a 
+                  href="/guide" 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = '/guide';
+                  }}
+                >
                   Calculator Guide
-                </Link>
-                <Link href="/faq" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                </a>
+                <a 
+                  href="/faq" 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = '/faq';
+                  }}
+                >
                   FAQ
-                </Link>
-                <Link href="/blog" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                </a>
+                <a 
+                  href="/blog" 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = '/blog';
+                  }}
+                >
                   Planning Resources
-                </Link>
+                </a>
               </div>
             </div>
 
@@ -983,12 +1004,26 @@ Best regards!`;
             <div>
               <h3 className="font-semibold text-sm text-primary mb-3">Company</h3>
               <div className="space-y-2">
-                <Link href="/about" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a 
+                  href="/about" 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = '/about';
+                  }}
+                >
                   About Us
-                </Link>
-                <Link href="/contact" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                </a>
+                <a 
+                  href="/contact" 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = '/contact';
+                  }}
+                >
                   Contact
-                </Link>
+                </a>
               </div>
             </div>
 
@@ -996,15 +1031,36 @@ Best regards!`;
             <div>
               <h3 className="font-semibold text-sm text-primary mb-3">Legal</h3>
               <div className="space-y-2">
-                <Link href="/terms" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a 
+                  href="/terms" 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = '/terms';
+                  }}
+                >
                   Terms of Service
-                </Link>
-                <Link href="/privacy" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                </a>
+                <a 
+                  href="/privacy" 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = '/privacy';
+                  }}
+                >
                   Privacy Policy
-                </Link>
-                <Link href="/disclaimer" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                </a>
+                <a 
+                  href="/disclaimer" 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = '/disclaimer';
+                  }}
+                >
                   Disclaimer
-                </Link>
+                </a>
               </div>
             </div>
 
