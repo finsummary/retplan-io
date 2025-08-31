@@ -15,7 +15,7 @@ export default function Privacy() {
           </div>
           <Link href="/">
             <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/20">
-              Back to Calculator
+              Back to RetPlan.io
             </Button>
           </Link>
         </div>
@@ -29,7 +29,7 @@ export default function Privacy() {
             Last updated: December 15, 2024
           </div>
           <p className="text-muted-foreground">
-            This Privacy Policy explains how we collect, use, and protect your information when you use our retirement calculator service.
+            This Privacy Policy explains how we collect, use, and protect your information when you use RetPlan.io.
           </p>
         </div>
 
@@ -45,7 +45,7 @@ export default function Privacy() {
               <div>
                 <h4 className="font-semibold mb-2">Calculator Inputs (Not Stored)</h4>
                 <p className="text-muted-foreground text-sm">
-                  When you use our calculator, you enter financial information like age, savings, and income goals. 
+                  When you use RetPlan.io, you enter financial information like age, savings, and income goals. 
                   This information is processed locally in your browser and is not stored on our servers unless you choose to save scenarios.
                 </p>
               </div>
@@ -246,8 +246,7 @@ export default function Privacy() {
                 If you have questions about this Privacy Policy or want to exercise your rights, please contact us:
               </p>
               <div className="mt-3 text-muted-foreground">
-                <p><strong>Email:</strong> privacy@retirementcalc.com</p>
-                <p><strong>Mail:</strong> Privacy Officer, 123 Financial District, New York, NY 10005</p>
+                <p><strong>Email:</strong> hi@retplan.io</p>
               </div>
             </CardContent>
           </Card>

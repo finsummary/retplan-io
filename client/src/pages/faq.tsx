@@ -12,15 +12,15 @@ const faqCategories = [
     questions: [
       {
         question: "How accurate is this retirement calculator?",
-        answer: "Our calculator uses industry-standard financial formulas and assumptions based on historical market data. While no calculator can predict the future with certainty, ours provides realistic projections based on your inputs. Remember to review and adjust your plan regularly as your circumstances change."
+        answer: "RetPlan.io uses industry-standard financial formulas and assumptions based on historical market data. While no calculator can predict the future with certainty, RetPlan.io provides realistic projections based on your inputs. Remember to review and adjust your plan regularly as your circumstances change."
       },
       {
-        question: "What information do I need to use the calculator?",
+        question: "What information do I need to use RetPlan.io?",
         answer: "You'll need your current age, planned retirement age, current retirement savings amount, and desired monthly income in retirement. Optional information like employer 401(k) matching can make the calculations more accurate."
       },
       {
-        question: "Is this calculator really free?",
-        answer: "Yes! Our core retirement calculator is completely free with no hidden fees, premium tiers, or required subscriptions. We believe everyone should have access to quality financial planning tools."
+        question: "Is RetPlan.io really free?",
+        answer: "Yes! RetPlan.io is completely free with no hidden fees, premium tiers, or required subscriptions. We believe everyone should have access to quality financial planning tools."
       }
     ]
   },
@@ -38,7 +38,7 @@ const faqCategories = [
       },
       {
         question: "Can I use my own expected return rate?",
-        answer: "Yes! Our calculator includes a custom scenario option where you can input your own expected annual return rate. This is useful if you have specific investment strategies or want to model different scenarios."
+        answer: "Yes! RetPlan.io includes a custom scenario option where you can input your own expected annual return rate. This is useful if you have specific investment strategies or want to model different scenarios."
       }
     ]
   },
@@ -48,7 +48,7 @@ const faqCategories = [
     questions: [
       {
         question: "How do you account for inflation?",
-        answer: "Our calculator assumes a 3% annual inflation rate, which is based on long-term historical averages. This means your desired monthly income is adjusted for inflation, so you maintain the same purchasing power throughout retirement."
+        answer: "RetPlan.io assumes a 3% annual inflation rate, which is based on long-term historical averages. This means your desired monthly income is adjusted for inflation, so you maintain the same purchasing power throughout retirement."
       },
       {
         question: "What withdrawal rate do you assume in retirement?",
@@ -56,7 +56,7 @@ const faqCategories = [
       },
       {
         question: "Do you include Social Security in the calculations?",
-        answer: "Currently, our calculator focuses on personal retirement savings and doesn't include Social Security benefits. This provides a conservative estimate, as Social Security will likely supplement your retirement income."
+        answer: "Currently, RetPlan.io focuses on personal retirement savings and doesn't include Social Security benefits. This provides a conservative estimate, as Social Security will likely supplement your retirement income."
       },
       {
         question: "How often is interest compounded?",
@@ -73,8 +73,8 @@ const faqCategories = [
         answer: "Yes. We take your privacy seriously. All calculations are performed securely, and we don't store your personal financial information on our servers. Your data is never sold or shared with third parties."
       },
       {
-        question: "Do I need to create an account to use the calculator?",
-        answer: "No account is required to use the basic calculator. However, creating a free account allows you to save multiple scenarios and access them later for comparison and updates."
+        question: "Do I need to create an account to use RetPlan.io?",
+        answer: "No account is required to use RetPlan.io. However, creating a free account allows you to save multiple scenarios and access them later for comparison and updates."
       },
       {
         question: "Can I delete my saved scenarios?",
@@ -102,7 +102,7 @@ export default function FAQ() {
           </div>
           <Link href="/">
             <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/20">
-              Back to Calculator
+              Back to RetPlan.io
             </Button>
           </Link>
         </div>
@@ -113,7 +113,7 @@ export default function FAQ() {
         <div className="text-center py-8">
           <h2 className="text-3xl font-bold text-primary mb-4">How Can We Help?</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Find answers to common questions about our retirement calculator and retirement planning in general.
+            Find answers to common questions about RetPlan.io and retirement planning in general.
           </p>
         </div>
 
@@ -180,11 +180,11 @@ export default function FAQ() {
         {/* Calculator CTA */}
         <div className="text-center py-12">
           <h3 className="text-2xl font-bold text-primary mb-4">Ready to Plan Your Retirement?</h3>
-          <p className="text-muted-foreground mb-6">Use our free calculator to get started on your retirement planning journey.</p>
+          <p className="text-muted-foreground mb-6">Use RetPlan.io to get started on your retirement planning journey.</p>
           <Link href="/">
             <Button size="lg" className="font-semibold">
               <Calculator className="mr-2 h-4 w-4" />
-              Try Our Calculator
+              Try RetPlan.io
             </Button>
           </Link>
         </div>

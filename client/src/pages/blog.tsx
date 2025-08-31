@@ -7,6 +7,7 @@ import { Link } from "wouter";
 const blogPosts = [
   {
     id: 1,
+    slug: "power-of-starting-early",
     title: "The Power of Starting Early: Why Your 20s Matter for Retirement",
     excerpt: "Discover how starting retirement savings in your 20s can save you hundreds of thousands of dollars compared to waiting until your 30s.",
     category: "Getting Started",
@@ -17,6 +18,7 @@ const blogPosts = [
   },
   {
     id: 2,
+    slug: "401k-vs-ira",
     title: "401(k) vs IRA: Which Retirement Account is Right for You?",
     excerpt: "A comprehensive comparison of 401(k) and IRA accounts, including contribution limits, tax advantages, and withdrawal rules.",
     category: "Investment Accounts",
@@ -27,6 +29,7 @@ const blogPosts = [
   },
   {
     id: 3,
+    slug: "4-percent-rule",
     title: "The 4% Rule: How Much Can You Safely Withdraw in Retirement?",
     excerpt: "Learn about the famous 4% withdrawal rule and how to apply it to your retirement planning strategy.",
     category: "Withdrawal Strategies",
@@ -37,6 +40,7 @@ const blogPosts = [
   },
   {
     id: 4,
+    slug: "inflation-and-retirement",
     title: "Inflation and Your Retirement: Protecting Your Purchasing Power",
     excerpt: "Understand how inflation affects your retirement savings and strategies to maintain your lifestyle throughout retirement.",
     category: "Risk Management",
@@ -47,6 +51,7 @@ const blogPosts = [
   },
   {
     id: 5,
+    slug: "catch-up-contributions",
     title: "Catch-Up Contributions: Boosting Your Retirement at 50+",
     excerpt: "If you're 50 or older, you can make additional 'catch-up' contributions to your retirement accounts. Here's how to maximize this opportunity.",
     category: "Advanced Planning",
@@ -57,6 +62,7 @@ const blogPosts = [
   },
   {
     id: 6,
+    slug: "social-security-optimization",
     title: "Social Security Optimization: Maximizing Your Benefits",
     excerpt: "Strategic timing of Social Security claims can increase your lifetime benefits by tens of thousands of dollars.",
     category: "Social Security",
@@ -79,7 +85,7 @@ export default function Blog() {
           </div>
           <Link href="/">
             <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/20">
-              Back to Calculator
+              Back to RetPlan.io
             </Button>
           </Link>
         </div>
@@ -114,9 +120,11 @@ export default function Blog() {
               <Badge variant="secondary">{blogPosts[0].category}</Badge>
             </div>
             <p className="text-muted-foreground mb-4">{blogPosts[0].content}</p>
-            <Button>
-              Read Full Article
-            </Button>
+            <Link href="/blog/power-of-starting-early">
+              <Button>
+                Read Full Article
+              </Button>
+            </Link>
           </CardContent>
         </Card>
 
@@ -125,32 +133,34 @@ export default function Blog() {
           {blogPosts.slice(1).map((post) => {
             const IconComponent = post.icon;
             return (
-              <Card key={post.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge variant="outline">{post.category}</Badge>
-                    <IconComponent className="h-5 w-5 text-primary" />
-                  </div>
-                  <CardTitle className="text-lg leading-tight">{post.title}</CardTitle>
-                  <CardDescription>{post.excerpt}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between text-sm text-muted-foreground mb-3">
-                    <div className="flex items-center">
-                      <Calendar className="mr-1 h-4 w-4" />
-                      {post.date}
+              <Link key={post.id} href={`/blog/${post.slug}`}>
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
+                  <CardHeader>
+                    <div className="flex items-center justify-between mb-2">
+                      <Badge variant="outline">{post.category}</Badge>
+                      <IconComponent className="h-5 w-5 text-primary" />
                     </div>
-                    <div className="flex items-center">
-                      <Clock className="mr-1 h-4 w-4" />
-                      {post.readTime}
+                    <CardTitle className="text-lg leading-tight">{post.title}</CardTitle>
+                    <CardDescription>{post.excerpt}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-between text-sm text-muted-foreground mb-3">
+                      <div className="flex items-center">
+                        <Calendar className="mr-1 h-4 w-4" />
+                        {post.date}
+                      </div>
+                      <div className="flex items-center">
+                        <Clock className="mr-1 h-4 w-4" />
+                        {post.readTime}
+                      </div>
                     </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-4">{post.content}</p>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Read More
-                  </Button>
-                </CardContent>
-              </Card>
+                    <p className="text-sm text-muted-foreground mb-4">{post.content}</p>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Read More
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Link>
             );
           })}
         </div>
@@ -179,10 +189,10 @@ export default function Blog() {
         {/* CTA */}
         <div className="text-center py-12">
           <h3 className="text-2xl font-bold text-primary mb-4">Ready to Start Planning?</h3>
-          <p className="text-muted-foreground mb-6">Use our free retirement calculator to create your personalized savings strategy.</p>
+          <p className="text-muted-foreground mb-6">Use RetPlan.io to create your personalized savings strategy.</p>
           <Link href="/">
             <Button size="lg" className="font-semibold">
-              Calculate My Retirement
+              Start Planning
             </Button>
           </Link>
         </div>

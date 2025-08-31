@@ -1,6 +1,6 @@
 # Overview
 
-A full-stack retirement planning calculator application built with React, Express, and PostgreSQL. The app allows users to input their current financial situation and retirement goals to calculate different investment scenarios (conservative, moderate, aggressive) and visualize their retirement savings projections. Features include interactive charts, progress tracking, and detailed financial insights to help users plan for their retirement.
+RetPlan.io is a full-stack retirement planning calculator application built with React, Express, and PostgreSQL. The app allows users to input their current financial situation and retirement goals to calculate different investment scenarios (conservative, moderate, aggressive) and visualize their retirement savings projections. Features include interactive charts, progress tracking, and detailed financial insights to help users plan for their retirement.
 
 # User Preferences
 

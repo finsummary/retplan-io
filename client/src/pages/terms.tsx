@@ -15,7 +15,7 @@ export default function Terms() {
           </div>
           <Link href="/">
             <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/20">
-              Back to Calculator
+              Back to RetPlan.io
             </Button>
           </Link>
         </div>
@@ -29,7 +29,7 @@ export default function Terms() {
             Last updated: December 15, 2024
           </div>
           <p className="text-muted-foreground">
-            Please read these Terms of Service carefully before using our retirement calculator and related services.
+            Please read these Terms of Service carefully before using RetPlan.io and related services.
           </p>
         </div>
 
@@ -40,7 +40,7 @@ export default function Terms() {
             </CardHeader>
             <CardContent className="prose prose-gray max-w-none">
               <p className="text-muted-foreground">
-                By accessing and using our retirement calculator website ("Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
+                By accessing and using RetPlan.io ("Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
               </p>
             </CardContent>
           </Card>
@@ -68,7 +68,7 @@ export default function Terms() {
             </CardHeader>
             <CardContent className="prose prose-gray max-w-none">
               <p className="text-muted-foreground mb-3">
-                <strong>Important:</strong> Our calculator and content are provided for educational and informational purposes only. They do not constitute financial advice, investment recommendations, or professional counsel.
+                <strong>Important:</strong> RetPlan.io and content are provided for educational and informational purposes only. They do not constitute financial advice, investment recommendations, or professional counsel.
               </p>
               <ul className="list-disc list-inside text-muted-foreground space-y-1">
                 <li>Results are projections based on assumptions and historical data</li>
@@ -88,7 +88,7 @@ export default function Terms() {
                 You agree to:
               </p>
               <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                <li>Provide accurate information when using our calculator</li>
+                <li>Provide accurate information when using RetPlan.io</li>
                 <li>Use the Service for lawful purposes only</li>
                 <li>Not attempt to reverse engineer or compromise our systems</li>
                 <li>Respect the intellectual property rights of our content</li>
@@ -125,7 +125,7 @@ export default function Terms() {
               </p>
               <ul className="list-disc list-inside text-muted-foreground space-y-1">
                 <li>We provide the Service "as is" without warranties of any kind</li>
-                <li>We are not liable for financial decisions made based on our calculator</li>
+                <li>We are not liable for financial decisions made based on RetPlan.io</li>
                 <li>We are not responsible for investment losses or missed opportunities</li>
                 <li>Our total liability shall not exceed the amount you paid for the Service (if any)</li>
               </ul>
@@ -138,7 +138,7 @@ export default function Terms() {
             </CardHeader>
             <CardContent className="prose prose-gray max-w-none">
               <p className="text-muted-foreground">
-                We strive to maintain high availability but cannot guarantee uninterrupted service. We reserve the right to modify, suspend, or discontinue the Service at any time with reasonable notice. We may also update our calculator algorithms and assumptions to reflect current market conditions and best practices.
+                We strive to maintain high availability but cannot guarantee uninterrupted service. We reserve the right to modify, suspend, or discontinue the Service at any time with reasonable notice. We may also update our algorithms and assumptions to reflect current market conditions and best practices.
               </p>
             </CardContent>
           </Card>
@@ -174,8 +174,7 @@ export default function Terms() {
                 If you have questions about these Terms of Service, please contact us at:
               </p>
               <p className="text-muted-foreground mt-2">
-                Email: support@retirementcalc.com<br />
-                Address: 123 Financial District, New York, NY 10005
+                Email: hi@retplan.io
               </p>
             </CardContent>
           </Card>

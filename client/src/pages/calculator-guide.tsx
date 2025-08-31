@@ -11,11 +11,11 @@ export default function CalculatorGuide() {
         <div className="flex items-center justify-between max-w-4xl mx-auto">
           <div className="flex items-center space-x-3">
             <Info className="h-6 w-6" />
-            <h1 className="text-xl font-bold">Calculator Guide</h1>
+            <h1 className="text-xl font-bold">RetPlan.io Guide</h1>
           </div>
           <Link href="/">
             <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/20">
-              Back to Calculator
+              Back to RetPlan.io
             </Button>
           </Link>
         </div>
@@ -27,7 +27,7 @@ export default function CalculatorGuide() {
           <CardHeader>
             <CardTitle className="flex items-center">
               <Calculator className="mr-2 text-primary" />
-              How to Use the Retirement Calculator
+              How to Use RetPlan.io
             </CardTitle>
             <CardDescription>
               Follow this step-by-step guide to calculate your retirement savings needs and create a personalized plan.
@@ -35,7 +35,7 @@ export default function CalculatorGuide() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              Our retirement calculator helps you determine how much you need to save each month to reach your retirement goals. 
+              RetPlan.io helps you determine how much you need to save each month to reach your retirement goals. 
               It analyzes different investment scenarios to give you a complete picture of your financial future.
             </p>
           </CardContent>
@@ -164,7 +164,7 @@ export default function CalculatorGuide() {
         <Card className="bg-primary text-primary-foreground">
           <CardContent className="p-6 text-center">
             <h3 className="text-xl font-bold mb-2">Ready to Calculate Your Retirement Plan?</h3>
-            <p className="mb-4 opacity-90">Use our calculator to create your personalized retirement savings strategy.</p>
+            <p className="mb-4 opacity-90">Use RetPlan.io to create your personalized retirement savings strategy.</p>
             <Link href="/">
               <Button variant="secondary" size="lg" className="font-semibold">
                 <Calculator className="mr-2 h-4 w-4" />

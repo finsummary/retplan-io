@@ -4,6 +4,8 @@ import { storage } from "./storage";
 import { setupAuth } from "./auth";
 import { insertSavedScenarioSchema } from "@shared/schema";
 import { z } from "zod";
+import path from "path";
+import fs from "fs/promises";
 
 function isAuthenticated(req: any, res: any, next: any) {
   if (!req.isAuthenticated()) {
@@ -58,6 +60,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting scenario:", error);
       res.status(500).json({ message: "Failed to delete scenario" });
+    }
+  });
+
+  // Blog article endpoint
+  app.get('/api/blog/:slug', async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const filePath = path.join(process.cwd(), 'client', 'src', 'content', 'blog', `${slug}.md`);
+      
+      const content = await fs.readFile(filePath, 'utf-8');
+      res.setHeader('Content-Type', 'text/plain');
+      res.send(content);
+    } catch (error) {
+      console.error("Error reading blog article:", error);
+      res.status(404).json({ message: "Article not found" });
     }
   });
 

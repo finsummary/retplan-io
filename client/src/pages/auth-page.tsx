@@ -68,7 +68,7 @@ export default function AuthPage() {
           <div className="text-center">
             <div className="flex items-center justify-center mb-4">
               <TrendingUp className="h-8 w-8 text-primary mr-2" />
-              <h1 className="text-2xl font-bold">Retirement Calculator</h1>
+              <h1 className="text-2xl font-bold">RetPlan.io</h1>
             </div>
             <p className="text-muted-foreground">
               {isLogin ? "Welcome back! Sign in to your account." : "Create an account to save your retirement plans."}

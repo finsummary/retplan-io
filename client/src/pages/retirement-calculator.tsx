@@ -210,7 +210,7 @@ export default function RetirementCalculator() {
         <div className="flex items-center justify-between max-w-md mx-auto">
           <div className="flex items-center space-x-3">
             <TrendingUp className="text-xl" />
-            <h1 className="text-xl font-bold">Retirement Calculator</h1>
+            <h1 className="text-xl font-bold">RetPlan.io</h1>
           </div>
           <div className="flex items-center space-x-2">
             {isAuthenticated ? (
@@ -673,7 +673,7 @@ export default function RetirementCalculator() {
               <Alert className="mt-3">
                 <Info className="h-4 w-4" />
                 <AlertDescription className="text-xs">
-                  This calculator provides estimates. Consult a financial advisor for personalized advice.
+                  RetPlan.io provides estimates. Consult a financial advisor for personalized advice.
                 </AlertDescription>
               </Alert>
             </CardContent>
@@ -975,7 +975,7 @@ Best regards!`;
                     window.location.href = '/guide';
                   }}
                 >
-                  Calculator Guide
+                  RetPlan.io Guide
                 </a>
                 <a 
                   href="/faq" 
@@ -1068,9 +1068,7 @@ Best regards!`;
             <div>
               <h3 className="font-semibold text-sm text-primary mb-3">Get in Touch</h3>
               <div className="space-y-2 text-sm text-muted-foreground">
-                <p>support@retirementcalc.com</p>
-                <p>(555) 123-4567</p>
-                <p>123 Financial District<br />New York, NY 10005</p>
+                <p>hi@retplan.io</p>
               </div>
             </div>
           </div>
@@ -1078,7 +1076,7 @@ Best regards!`;
           {/* Bottom bar */}
           <div className="border-t pt-6 mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
-              © 2024 Retirement Calculator. All rights reserved.
+              © 2024 RetPlan.io. All rights reserved.
             </p>
             <p className="text-xs text-muted-foreground">
               For educational purposes only. Not financial advice.

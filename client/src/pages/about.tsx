@@ -15,7 +15,7 @@ export default function About() {
           </div>
           <Link href="/">
             <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/20">
-              Back to Calculator
+              Back to RetPlan.io
             </Button>
           </Link>
         </div>
@@ -90,19 +90,19 @@ export default function About() {
                   too complicated for beginners or too simplistic for those wanting detailed insights.
                 </p>
                 <p className="text-muted-foreground">
-                  That's when we decided to create something different - a retirement calculator that combines 
+                  That's when we decided to create something different - RetPlan.io combines 
                   sophisticated financial modeling with an intuitive, mobile-first design. We wanted to build a tool 
                   that anyone could use, regardless of their financial background.
                 </p>
                 <p className="text-muted-foreground">
-                  Today, our calculator has helped thousands of people take control of their retirement planning, 
+                  Today, RetPlan.io has helped thousands of people take control of their retirement planning, 
                   from college graduates just starting their careers to professionals preparing for retirement.
                 </p>
               </div>
               <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-8 text-center">
                 <TrendingUp className="h-16 w-16 text-primary mx-auto mb-4" />
                 <h3 className="text-2xl font-bold text-primary mb-2">10,000+</h3>
-                <p className="text-muted-foreground">People have used our calculator to plan their retirement</p>
+                <p className="text-muted-foreground">People have used RetPlan.io to plan their retirement</p>
               </div>
             </div>
           </CardContent>
@@ -121,7 +121,7 @@ export default function About() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Our calculator uses sophisticated financial algorithms while maintaining a clean, intuitive interface. 
+                  RetPlan.io uses sophisticated financial algorithms while maintaining a clean, intuitive interface. 
                   You get institutional-quality analysis in a tool anyone can use.
                 </p>
               </CardContent>
@@ -166,7 +166,7 @@ export default function About() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Quality financial planning tools shouldn't be reserved for the wealthy. Our core calculator 
+                  Quality financial planning tools shouldn't be reserved for the wealthy. RetPlan.io 
                   will always be free, with no hidden fees or premium tiers.
                 </p>
               </CardContent>
@@ -180,13 +180,13 @@ export default function About() {
             <h3 className="text-2xl font-bold mb-4">Ready to Start Your Journey?</h3>
             <p className="mb-6 opacity-90 max-w-2xl mx-auto">
               Join thousands of smart savers who have taken control of their retirement planning. 
-              Start with our free calculator and take the first step toward financial security.
+              Start with RetPlan.io and take the first step toward financial security.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/">
                 <Button variant="secondary" size="lg" className="font-semibold">
                   <Calculator className="mr-2 h-4 w-4" />
-                  Try Our Calculator
+                  Try RetPlan.io
                 </Button>
               </Link>
               <Link href="/guide">

@@ -14,6 +14,7 @@ import Contact from "@/pages/contact";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
 import Disclaimer from "@/pages/disclaimer";
+import BlogArticle from "@/pages/blog-article";
 import { AuthProvider } from "@/hooks/useAuth";
 
 function Router() {
@@ -25,6 +26,7 @@ function Router() {
       {/* Quick Links Pages */}
       <Route path="/guide" component={CalculatorGuide} />
       <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogArticle} />
       <Route path="/about" component={About} />
       <Route path="/faq" component={FAQ} />
       <Route path="/contact" component={Contact} />

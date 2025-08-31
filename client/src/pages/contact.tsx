@@ -40,7 +40,7 @@ export default function Contact() {
           </div>
           <Link href="/">
             <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/20">
-              Back to Calculator
+              Back to RetPlan.io
             </Button>
           </Link>
         </div>
@@ -51,7 +51,7 @@ export default function Contact() {
         <div className="text-center py-8">
           <h2 className="text-3xl font-bold text-primary mb-4">Get in Touch</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Have questions about retirement planning or need help with our calculator? 
+            Have questions about retirement planning or need help with RetPlan.io? 
             We're here to help you succeed on your financial journey.
           </p>
         </div>
@@ -74,34 +74,7 @@ export default function Contact() {
                   <Mail className="h-5 w-5 text-primary" />
                   <div>
                     <p className="font-semibold">Email Support</p>
-                    <p className="text-sm text-muted-foreground">support@retirementcalc.com</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Phone className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="font-semibold">Phone Support</p>
-                    <p className="text-sm text-muted-foreground">(555) 123-4567</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <MapPin className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="font-semibold">Office Address</p>
-                    <p className="text-sm text-muted-foreground">
-                      123 Financial District<br />
-                      New York, NY 10005
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Clock className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="font-semibold">Business Hours</p>
-                    <p className="text-sm text-muted-foreground">
-                      Mon-Fri: 9:00 AM - 6:00 PM EST<br />
-                      Sat-Sun: Closed
-                    </p>
+                    <p className="text-sm text-muted-foreground">hi@retplan.io</p>
                   </div>
                 </div>
               </CardContent>
@@ -128,7 +101,7 @@ export default function Contact() {
                   <Link href="/guide">
                     <Button variant="outline" size="sm" className="w-full justify-start">
                       <MessageCircle className="mr-2 h-4 w-4" />
-                      Calculator Guide
+                      RetPlan.io Guide
                     </Button>
                   </Link>
                   <Link href="/blog">
@@ -230,7 +203,7 @@ export default function Contact() {
             <h3 className="text-2xl font-bold text-primary mb-4">Looking for Quick Answers?</h3>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               Many common questions are answered in our FAQ section. 
-              Check there first for immediate help with calculator usage and retirement planning basics.
+              Check there first for immediate help with RetPlan.io usage and retirement planning basics.
             </p>
             <Link href="/faq">
               <Button size="lg" className="font-semibold">

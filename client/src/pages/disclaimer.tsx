@@ -16,7 +16,7 @@ export default function Disclaimer() {
           </div>
           <Link href="/">
             <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/20">
-              Back to Calculator
+              Back to RetPlan.io
             </Button>
           </Link>
         </div>
@@ -33,7 +33,7 @@ export default function Disclaimer() {
           <Alert className="border-orange-200 bg-orange-50 dark:border-orange-800 dark:bg-orange-950">
             <AlertTriangle className="h-4 w-4 text-orange-600" />
             <AlertDescription className="text-orange-800 dark:text-orange-200">
-              <strong>Important:</strong> This retirement calculator is for educational purposes only and does not constitute financial advice. 
+              <strong>Important:</strong> RetPlan.io is for educational purposes only and does not constitute financial advice. 
               Please read this disclaimer carefully before using our service.
             </AlertDescription>
           </Alert>
@@ -49,7 +49,7 @@ export default function Disclaimer() {
             </CardHeader>
             <CardContent className="prose prose-gray max-w-none">
               <p className="text-muted-foreground mb-3">
-                Our retirement calculator is designed as an educational tool to help you understand retirement planning concepts. It is <strong>not intended to provide</strong>:
+                RetPlan.io is designed as an educational tool to help you understand retirement planning concepts. It is <strong>not intended to provide</strong>:
               </p>
               <ul className="list-disc list-inside text-muted-foreground space-y-1">
                 <li>Personalized financial advice</li>
@@ -86,7 +86,7 @@ export default function Disclaimer() {
               <div>
                 <h4 className="font-semibold mb-2">Simplified Assumptions</h4>
                 <p className="text-muted-foreground text-sm">
-                  Our calculator uses simplified assumptions for inflation, taxes, fees, and market returns. 
+                  RetPlan.io uses simplified assumptions for inflation, taxes, fees, and market returns. 
                   Real-world factors may significantly impact your actual results.
                 </p>
               </div>
@@ -171,7 +171,7 @@ export default function Disclaimer() {
                 To the maximum extent permitted by law:
               </p>
               <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                <li>We are not liable for any financial losses resulting from use of our calculator</li>
+                <li>We are not liable for any financial losses resulting from use of RetPlan.io</li>
                 <li>We make no warranties about the accuracy or completeness of our projections</li>
                 <li>Users assume all responsibility for their financial decisions</li>
                 <li>Our liability is limited to the amount paid for our service (which is currently free)</li>
@@ -216,11 +216,10 @@ export default function Disclaimer() {
             </CardHeader>
             <CardContent className="prose prose-gray max-w-none">
               <p className="text-muted-foreground">
-                If you have questions about this disclaimer or our calculator methodology, please contact us at:
+                If you have questions about this disclaimer or our methodology, please contact us at:
               </p>
               <div className="mt-3 text-muted-foreground">
-                <p><strong>Email:</strong> support@retirementcalc.com</p>
-                <p><strong>Address:</strong> 123 Financial District, New York, NY 10005</p>
+                <p><strong>Email:</strong> hi@retplan.io</p>
               </div>
               <p className="text-muted-foreground mt-3">
                 For specific financial advice, please consult with qualified financial professionals in your area.
@@ -233,7 +232,7 @@ export default function Disclaimer() {
         <Alert className="mt-8 border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950">
           <AlertTriangle className="h-4 w-4 text-red-600" />
           <AlertDescription className="text-red-800 dark:text-red-200">
-            <strong>Remember:</strong> This calculator provides estimates based on assumptions. 
+            <strong>Remember:</strong> RetPlan.io provides estimates based on assumptions. 
             Your actual retirement needs may be significantly different. Always consult with financial professionals 
             for personalized advice tailored to your specific situation.
           </AlertDescription>
