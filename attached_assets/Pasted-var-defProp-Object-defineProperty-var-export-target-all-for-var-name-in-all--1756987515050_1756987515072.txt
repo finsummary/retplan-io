@@ -1,0 +1,479 @@
+var __defProp = Object.defineProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+
+// server/index.ts
+import express2 from "express";
+
+// server/routes.ts
+import { createServer } from "http";
+
+// shared/schema.ts
+var schema_exports = {};
+__export(schema_exports, {
+  insertSavedScenarioSchema: () => insertSavedScenarioSchema,
+  insertUserSchema: () => insertUserSchema,
+  savedScenarios: () => savedScenarios,
+  sessions: () => sessions,
+  users: () => users
+});
+import { sql } from "drizzle-orm";
+import {
+  index,
+  jsonb,
+  pgTable,
+  timestamp,
+  varchar,
+  real,
+  integer
+} from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
+var sessions = pgTable(
+  "sessions",
+  {
+    sid: varchar("sid").primaryKey(),
+    sess: jsonb("sess").notNull(),
+    expire: timestamp("expire").notNull()
+  },
+  (table) => [index("IDX_session_expire").on(table.expire)]
+);
+var users = pgTable("users", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: varchar("email").unique().notNull(),
+  password: varchar("password"),
+  googleId: varchar("google_id").unique(),
+  name: varchar("name"),
+  profileImage: varchar("profile_image"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow()
+});
+var savedScenarios = pgTable("saved_scenarios", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  name: varchar("name").notNull(),
+  currentAge: integer("current_age").notNull(),
+  retirementAge: integer("retirement_age").notNull(),
+  currentSavings: real("current_savings").notNull(),
+  desiredIncome: real("desired_income").notNull(),
+  monthlyContribution: real("monthly_contribution").notNull(),
+  retirementScenarios: jsonb("retirement_scenarios").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow()
+});
+var insertSavedScenarioSchema = createInsertSchema(savedScenarios).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true
+}).extend({
+  name: z.string().min(1, "Scenario name is required"),
+  currentAge: z.number().min(18).max(100),
+  retirementAge: z.number().min(50).max(100),
+  currentSavings: z.number().min(0),
+  desiredIncome: z.number().min(100),
+  monthlyContribution: z.number().min(0),
+  retirementScenarios: z.any()
+});
+var insertUserSchema = createInsertSchema(users).omit({
+  id: true,
+  googleId: true,
+  profileImage: true,
+  createdAt: true,
+  updatedAt: true
+}).extend({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  name: z.string().optional()
+});
+
+// server/db.ts
+import { Pool, neonConfig } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-serverless";
+import ws from "ws";
+neonConfig.webSocketConstructor = ws;
+if (!process.env.DATABASE_URL) {
+  throw new Error(
+    "DATABASE_URL must be set. Did you forget to provision a database?"
+  );
+}
+var pool = new Pool({ connectionString: process.env.DATABASE_URL });
+var db = drizzle({ client: pool, schema: schema_exports });
+
+// server/storage.ts
+import { eq, and } from "drizzle-orm";
+var DatabaseStorage = class {
+  // User operations
+  async getUser(id) {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+  async getUserByEmail(email) {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user;
+  }
+  async getUserByGoogleId(googleId) {
+    const [user] = await db.select().from(users).where(eq(users.googleId, googleId));
+    return user;
+  }
+  async createUser(userData) {
+    const [user] = await db.insert(users).values(userData).returning();
+    return user;
+  }
+  async createGoogleUser(googleData) {
+    const [user] = await db.insert(users).values(googleData).returning();
+    return user;
+  }
+  // Scenario operations
+  async saveScenario(scenario) {
+    const [savedScenario] = await db.insert(savedScenarios).values({
+      ...scenario,
+      retirementScenarios: scenario.retirementScenarios || {}
+    }).returning();
+    return savedScenario;
+  }
+  async getUserScenarios(userId) {
+    return await db.select().from(savedScenarios).where(eq(savedScenarios.userId, userId)).orderBy(savedScenarios.createdAt);
+  }
+  async deleteScenario(id, userId) {
+    await db.delete(savedScenarios).where(and(eq(savedScenarios.id, id), eq(savedScenarios.userId, userId)));
+  }
+};
+var storage = new DatabaseStorage();
+
+// server/auth.ts
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import session from "express-session";
+import { scrypt, randomBytes, timingSafeEqual } from "crypto";
+import { promisify } from "util";
+import connectPg from "connect-pg-simple";
+var scryptAsync = promisify(scrypt);
+async function hashPassword(password) {
+  const salt = randomBytes(16).toString("hex");
+  const buf = await scryptAsync(password, salt, 64);
+  return `${buf.toString("hex")}.${salt}`;
+}
+async function comparePasswords(supplied, stored) {
+  const [hashed, salt] = stored.split(".");
+  const hashedBuf = Buffer.from(hashed, "hex");
+  const suppliedBuf = await scryptAsync(supplied, salt, 64);
+  return timingSafeEqual(hashedBuf, suppliedBuf);
+}
+function setupAuth(app2) {
+  const PostgresSessionStore = connectPg(session);
+  const sessionStore = new PostgresSessionStore({
+    conString: process.env.DATABASE_URL,
+    createTableIfMissing: false,
+    tableName: "sessions"
+  });
+  const sessionSettings = {
+    secret: process.env.SESSION_SECRET || "retirement-calculator-secret-key",
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      // Set to true in production with HTTPS
+      maxAge: 7 * 24 * 60 * 60 * 1e3
+      // 1 week
+    }
+  };
+  app2.set("trust proxy", 1);
+  app2.use(session(sessionSettings));
+  app2.use(passport.initialize());
+  app2.use(passport.session());
+  passport.use(
+    new LocalStrategy({
+      usernameField: "email",
+      passwordField: "password"
+    }, async (email, password, done) => {
+      try {
+        const user = await storage.getUserByEmail(email);
+        if (!user || !user.password || !await comparePasswords(password, user.password)) {
+          return done(null, false);
+        } else {
+          return done(null, user);
+        }
+      } catch (error) {
+        return done(error);
+      }
+    })
+  );
+  passport.serializeUser((user, done) => done(null, user.id));
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await storage.getUser(id);
+      done(null, user);
+    } catch (error) {
+      done(error);
+    }
+  });
+  app2.post("/api/register", async (req, res, next) => {
+    try {
+      const { email, password, name } = req.body;
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+      }
+      const existingUser = await storage.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ message: "Email already exists" });
+      }
+      const user = await storage.createUser({
+        email,
+        password: await hashPassword(password),
+        name
+      });
+      req.login(user, (err) => {
+        if (err) return next(err);
+        res.status(201).json({ id: user.id, email: user.email, name: user.name });
+      });
+    } catch (error) {
+      console.error("Registration error:", error);
+      res.status(500).json({ message: "Registration failed" });
+    }
+  });
+  app2.post("/api/login", passport.authenticate("local"), (req, res) => {
+    const user = req.user;
+    res.status(200).json({ id: user.id, email: user.email, name: user.name });
+  });
+  app2.post("/api/logout", (req, res, next) => {
+    req.logout((err) => {
+      if (err) return next(err);
+      res.sendStatus(200);
+    });
+  });
+  app2.get("/api/user", (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    const user = req.user;
+    res.json({ id: user.id, email: user.email, name: user.name, profileImage: user.profileImage });
+  });
+}
+
+// server/routes.ts
+import { z as z2 } from "zod";
+import path from "path";
+import fs from "fs/promises";
+function isAuthenticated(req, res, next) {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  next();
+}
+async function registerRoutes(app2) {
+  setupAuth(app2);
+  app2.post("/api/scenarios", isAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const scenarioData = insertSavedScenarioSchema.parse({
+        ...req.body,
+        userId
+      });
+      const savedScenario = await storage.saveScenario(scenarioData);
+      res.json(savedScenario);
+    } catch (error) {
+      if (error instanceof z2.ZodError) {
+        res.status(400).json({ message: "Invalid scenario data", errors: error.errors });
+      } else {
+        console.error("Error saving scenario:", error);
+        res.status(500).json({ message: "Failed to save scenario" });
+      }
+    }
+  });
+  app2.get("/api/scenarios", isAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const scenarios = await storage.getUserScenarios(userId);
+      res.json(scenarios);
+    } catch (error) {
+      console.error("Error fetching scenarios:", error);
+      res.status(500).json({ message: "Failed to fetch scenarios" });
+    }
+  });
+  app2.delete("/api/scenarios/:id", isAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const scenarioId = req.params.id;
+      await storage.deleteScenario(scenarioId, userId);
+      res.json({ message: "Scenario deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting scenario:", error);
+      res.status(500).json({ message: "Failed to delete scenario" });
+    }
+  });
+  app2.get("/api/blog/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const filePath = path.join(process.cwd(), "client", "src", "content", "blog", `${slug}.md`);
+      const content = await fs.readFile(filePath, "utf-8");
+      res.setHeader("Content-Type", "text/plain");
+      res.send(content);
+    } catch (error) {
+      console.error("Error reading blog article:", error);
+      res.status(404).json({ message: "Article not found" });
+    }
+  });
+  const httpServer = createServer(app2);
+  return httpServer;
+}
+
+// server/vite.ts
+import express from "express";
+import fs2 from "fs";
+import path3 from "path";
+import { createServer as createViteServer, createLogger } from "vite";
+
+// vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path2 from "path";
+import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+var vite_config_default = defineConfig({
+  plugins: [
+    react(),
+    runtimeErrorOverlay(),
+    ...process.env.NODE_ENV !== "production" && process.env.REPL_ID !== void 0 ? [
+      await import("@replit/vite-plugin-cartographer").then(
+        (m) => m.cartographer()
+      )
+    ] : []
+  ],
+  resolve: {
+    alias: {
+      "@": path2.resolve(import.meta.dirname, "client", "src"),
+      "@shared": path2.resolve(import.meta.dirname, "shared"),
+      "@assets": path2.resolve(import.meta.dirname, "attached_assets")
+    }
+  },
+  root: path2.resolve(import.meta.dirname, "client"),
+  build: {
+    outDir: path2.resolve(import.meta.dirname, "dist/public"),
+    emptyOutDir: true
+  },
+  server: {
+    fs: {
+      strict: true,
+      deny: ["**/.*"]
+    }
+  }
+});
+
+// server/vite.ts
+import { nanoid } from "nanoid";
+var viteLogger = createLogger();
+function log(message, source = "express") {
+  const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  });
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
+async function setupVite(app2, server) {
+  const serverOptions = {
+    middlewareMode: true,
+    hmr: { server },
+    allowedHosts: true
+  };
+  const vite = await createViteServer({
+    ...vite_config_default,
+    configFile: false,
+    customLogger: {
+      ...viteLogger,
+      error: (msg, options) => {
+        viteLogger.error(msg, options);
+        process.exit(1);
+      }
+    },
+    server: serverOptions,
+    appType: "custom"
+  });
+  app2.use(vite.middlewares);
+  app2.use("*", async (req, res, next) => {
+    const url = req.originalUrl;
+    try {
+      const clientTemplate = path3.resolve(
+        import.meta.dirname,
+        "..",
+        "client",
+        "index.html"
+      );
+      let template = await fs2.promises.readFile(clientTemplate, "utf-8");
+      template = template.replace(
+        `src="/src/main.tsx"`,
+        `src="/src/main.tsx?v=${nanoid()}"`
+      );
+      const page = await vite.transformIndexHtml(url, template);
+      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+    } catch (e) {
+      vite.ssrFixStacktrace(e);
+      next(e);
+    }
+  });
+}
+function serveStatic(app2) {
+  const distPath = path3.resolve(import.meta.dirname, "public");
+  if (!fs2.existsSync(distPath)) {
+    throw new Error(
+      `Could not find the build directory: ${distPath}, make sure to build the client first`
+    );
+  }
+  app2.use(express.static(distPath));
+  app2.use("*", (_req, res) => {
+    res.sendFile(path3.resolve(distPath, "index.html"));
+  });
+}
+
+// server/index.ts
+var app = express2();
+app.use(express2.json());
+app.use(express2.urlencoded({ extended: false }));
+app.use((req, res, next) => {
+  const start = Date.now();
+  const path4 = req.path;
+  let capturedJsonResponse = void 0;
+  const originalResJson = res.json;
+  res.json = function(bodyJson, ...args) {
+    capturedJsonResponse = bodyJson;
+    return originalResJson.apply(res, [bodyJson, ...args]);
+  };
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    if (path4.startsWith("/api")) {
+      let logLine = `${req.method} ${path4} ${res.statusCode} in ${duration}ms`;
+      if (capturedJsonResponse) {
+        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+      }
+      if (logLine.length > 80) {
+        logLine = logLine.slice(0, 79) + "\u2026";
+      }
+      log(logLine);
+    }
+  });
+  next();
+});
+(async () => {
+  const server = await registerRoutes(app);
+  app.use((err, _req, res, _next) => {
+    const status = err.status || err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    res.status(status).json({ message });
+    throw err;
+  });
+  if (app.get("env") === "development") {
+    await setupVite(app, server);
+  } else {
+    serveStatic(app);
+  }
+  const port = parseInt(process.env.PORT || "5000", 10);
+  server.listen({
+    port,
+    host: "0.0.0.0",
+    reusePort: true
+  }, () => {
+    log(`serving on port ${port}`);
+  });
+})();
