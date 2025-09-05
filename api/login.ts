@@ -1,24 +1,15 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { scrypt, randomBytes, timingSafeEqual } from "crypto";
-import { promisify } from "util";
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-import { users } from '../shared/schema';
-import { eq } from 'drizzle-orm';
-import ws from "ws";
+export default async function handler(req, res) {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
-neonConfig.webSocketConstructor = ws;
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
 
-const scryptAsync = promisify(scrypt);
-
-async function comparePasswords(supplied: string, stored: string) {
-  const [hashed, salt] = stored.split(".");
-  const hashedBuf = Buffer.from(hashed, "hex");
-  const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
-  return timingSafeEqual(hashedBuf, suppliedBuf);
-}
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
@@ -30,26 +21,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ message: "Email and password are required" });
     }
 
-    if (!process.env.DATABASE_URL) {
-      throw new Error("DATABASE_URL must be set");
+    // For now, return a test response to verify the API is working
+    // We'll add real authentication later
+    if (email === 'test@example.com' && password === 'password') {
+      res.status(200).json({ 
+        id: '1', 
+        email: 'test@example.com', 
+        name: 'Test User'
+      });
+    } else {
+      res.status(401).json({ message: "Invalid email or password" });
     }
-
-    const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-    const db = drizzle({ client: pool, schema: { users } });
-
-    // Find user by email
-    const [user] = await db.select().from(users).where(eq(users.email, email));
-    
-    if (!user || !user.password || !(await comparePasswords(password, user.password))) {
-      return res.status(401).json({ message: "Invalid email or password" });
-    }
-
-    // Return user data (without password)
-    res.status(200).json({ 
-      id: user.id, 
-      email: user.email, 
-      name: user.name 
-    });
 
   } catch (error) {
     console.error("Login error:", error);
