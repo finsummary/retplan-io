@@ -1,0 +1,889 @@
+PS C:\Users\user\Desktop\FindGreatStocks> npm run dev
+
+> rest-express@1.0.0 dev
+> concurrently "npm:dev:server" "npm:dev:client"
+
+[dev:server] 
+[dev:server] > rest-express@1.0.0 dev:server
+[dev:server] > dotenv -e .env -- tsx server/index.ts
+[dev:server]
+[dev:client]
+[dev:client] > rest-express@1.0.0 dev:client
+[dev:client] > vite --force
+[dev:client]
+[dev:client] Forced re-optimization of dependencies
+[dev:client] 
+[dev:client]   VITE v5.4.19  ready in 302 ms
+[dev:client]
+[dev:client]   ➜  Local:   http://localhost:5173/
+[dev:client]   ➜  Network: use --host to expose
+[dev:server] [dotenv@17.2.2] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcomma nd`
+[dev:server] DataScheduler starting...
+[dev:server] [dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env
+[dev:server] DataScheduler initialized and running...
+[dev:server] 🚀 Server listening on port 5001
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] GET /api/dowjones?offset=0&limit=50&_=1757085859558 200 89535 - 93.524 ms
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 304.028 ms
+[dev:server] GET /api/watchlist 304 - - 275.232 ms
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] GET /api/dowjones?offset=0&limit=50&_=1757085863943 200 89535 - 65.423 ms
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 244 - 118.920 ms
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 244 - 127.236 ms
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 244 - 129.548 ms
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 178.044 ms
+[dev:server] GET /api/watchlist 304 - - 217.180 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 126.150 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 127.156 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 151.127 ms
+[dev:server] [AUTH] Middleware triggered for: /api/stripe/create-checkout-session
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] POST /api/stripe/create-checkout-session 200 82 - 681.120 ms
+[dev:client] 16:25:53 [vite] hmr update /src/components/company-table.tsx, /src/index.css
+[dev:client] 16:25:56 [vite] hmr invalidate /src/components/company-table.tsx Could not Fast Refresh ("ALL_COLUMNS" export is atible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-expor
+[dev:client] 16:25:56 [vite] hmr update /src/pages/home.tsx, /src/index.css
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] GET /api/dowjones?offset=0&limit=50&_=1757085956268 200 89535 - 71.674 ms
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 200 481 - 205.010 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 111.792 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 118.411 ms
+[dev:client] 16:26:02 [vite] hmr update /src/components/company-table.tsx, /src/index.css
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:client] 16:26:04 [vite] hmr invalidate /src/components/company-table.tsx Could not Fast Refresh ("ALL_COLUMNS" export is atible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-expor
+[dev:client] 16:26:04 [vite] hmr update /src/pages/home.tsx, /src/index.css
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 214.434 ms
+[dev:server] GET /api/dowjones?offset=0&limit=50&_=1757085965019 200 89535 - 67.245 ms
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] GET /api/dowjones?offset=0&limit=50&_=1757086257731 200 89535 - 65.178 ms
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 180.473 ms
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 99.902 ms
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 158.894 ms
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 164.347 ms
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 181.825 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 103.083 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 168.659 ms
+[dev:server] [AUTH] Middleware triggered for: /api/stripe/create-checkout-session
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 123.058 ms
+[dev:server] POST /api/stripe/create-checkout-session 200 82 - 635.211 ms
+[dev:client] 16:31:52 [vite] hmr update /src/components/company-table.tsx, /src/index.css
+[dev:client] 16:31:55 [vite] hmr invalidate /src/components/company-table.tsx Could not Fast Refresh ("ALL_COLUMNS" export is atible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-expor
+[dev:client] 16:31:55 [vite] hmr update /src/pages/home.tsx, /src/index.css
+[dev:server] GET /api/dowjones?offset=0&limit=50&_=1757086315409 200 89535 - 82.015 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 203.872 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 117.347 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 151.352 ms
+[dev:client] 16:32:01 [vite] hmr update /src/components/company-table.tsx, /src/index.css
+[dev:client] 16:32:04 [vite] hmr invalidate /src/components/company-table.tsx Could not Fast Refresh ("ALL_COLUMNS" export is atible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-expor
+[dev:client] 16:32:04 [vite] hmr update /src/pages/home.tsx, /src/index.css
+[dev:server] GET /api/dowjones?offset=0&limit=50&_=1757086324315 200 89535 - 60.721 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 147.090 ms
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] GET /api/dowjones?offset=0&limit=50&_=1757086601722 200 89535 - 132.657 ms
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 244 - 236.214 ms
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 78.919 ms
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 89.445 ms
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 139.110 ms
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 200 481 - 160.913 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 93.052 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+ed for: /api/stripe/create-checkout-seile fetched from DB.ssion
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] POST /api/stripe/create-checkout-session 200 82 - 608.687 ms
+[dev:server] Webhook signature verification failed. StripeSignatureVerificationError: Webhook payload must be provided as a string or a Buffer (https://nodejs.org/api/buffer.html) instance representing the _raw_ request body.Payload was provided as a parsed JavaScript object instead. 
+[dev:server] Signature verification is impossible without access to the original signed material. 
+[dev:server] 
+[dev:server] Learn more about webhook signing and explore webhook integration examples for various frameworks at https://docs.stripe.com/webhooks/signature
+[dev:server] 
+[dev:server]     at validateComputedSignature (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:135:23)
+[dev:server]     at Object.verifyHeader (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:67:13)   
+[dev:server]     at Object.constructEvent (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:12:32) 
+[dev:server]     at <anonymous> (C:\Users\user\Desktop\FindGreatStocks\server\routes.ts:923:31)
+[dev:server]     at Layer.handle [as handle_request] (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\layer.js:95:5)
+[dev:server]     at next (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:149:13)
+[dev:server]     at rawParser (C:\Users\user\Desktop\FindGreatStocks\node_modules\body-parser\lib\types\raw.js:58:7)
+[dev:server]     at Layer.handle [as handle_request] (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\layer.js:95:5)
+[dev:server]     at next (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:149:13)
+[dev:server]     at Route.dispatch (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:119:3) {
+[dev:server]   type: 'StripeSignatureVerificationError',
+[dev:server]   raw: {
+[dev:server]     message: 'Webhook payload must be provided as a string or a Buffer (https://nodejs.org/api/buffer.html) instance representing the _raw_ request body.Payload was provided as a parsed JavaScript object instead. \n' +
+[dev:server]       'Signature verification is impossible without access to the original signed material. \n' +
+[dev:server]       '\n' +
+[dev:server]       'Learn more about webhook signing and explore webhook integration examples for various frameworks at https://docs.stripe.com/webhooks/signature\n'
+[dev:server]   },
+[dev:server]   rawType: undefined,
+[dev:server]   code: undefined,
+[dev:server]   doc_url: undefined,
+[dev:server]   param: undefined,
+[dev:server]   detail: undefined,
+[dev:server]   headers: undefined,
+[dev:server]   requestId: undefined,
+[dev:server]   statusCode: undefined,
+[dev:server]   userMessage: undefined,
+[dev:server]   charge: undefined,
+[dev:server]   decline_code: undefined,
+[dev:server]   payment_intent: undefined,
+[dev:server]   payment_method: undefined,
+[dev:server]   payment_method_type: undefined,
+[dev:server]   setup_intent: undefined,
+[dev:server]   source: undefined,
+[dev:server]   header: 't=1757088580,v1=00283a498a6ef3b9d08f48421dd19d87b1a311134a8b1240455a886f575b47ae,v0=1bba72abe2af6a64f8dc2fd35036cdf41bedecc3f146c86219140532d85bf78b',
+[dev:server]   payload: {
+[dev:server]     id: 'evt_3S42ClATxoDBt4bw0SiFrmoJ',
+[dev:server]     object: 'event',
+[dev:server]     api_version: '2025-08-27.basil',
+[dev:server]     created: 1757088579,
+[dev:server]     data: { object: [Object] },
+[dev:server]     livemode: false,
+[dev:server]     pending_webhooks: 2,
+[dev:server]     request: {
+[dev:server]       id: null,
+[dev:server]       idempotency_key: '284003c0-924e-4f76-b909-8b0ea87c880a'
+[dev:server]     },
+[dev:server]     type: 'payment_intent.succeeded'
+[dev:server]   }
+[dev:server] }
+[dev:server] POST /api/stripe/webhook 400 445 - 31.384 ms
+[dev:server] POST /api/stripe/webhook 400 445 - 1.832 ms
+[dev:server] Webhook signature verification failed. StripeSignatureVerificationError: Webhook payload must be provided as a string or a Buffer (https://nodejs.org/api/buffer.html) instance representing the _raw_ request body.Payload was provided as a parsed JavaScript object instead.
+[dev:server] Signature verification is impossible without access to the original signed material.
+[dev:server]
+[dev:server] Learn more about webhook signing and explore webhook integration examples for various frameworks at https://docs.stripe.com/webhooks/signature
+[dev:server]
+[dev:server]     at validateComputedSignature (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:135:23)
+[dev:server]     at Object.verifyHeader (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:67:13)   
+[dev:server]     at Object.constructEvent (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:12:32) 
+[dev:server]     at <anonymous> (C:\Users\user\Desktop\FindGreatStocks\server\routes.ts:923:31)
+[dev:server]     at Layer.handle [as handle_request] (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\layer.js:95:5)
+[dev:server]     at next (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:149:13)
+[dev:server]     at rawParser (C:\Users\user\Desktop\FindGreatStocks\node_modules\body-parser\lib\types\raw.js:58:7)
+[dev:server]     at Layer.handle [as handle_request] (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\layer.js:95:5)
+[dev:server]     at next (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:149:13)
+[dev:server]     at Route.dispatch (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:119:3) {
+[dev:server]   type: 'StripeSignatureVerificationError',
+[dev:server]   raw: {
+[dev:server]     message: 'Webhook payload must be provided as a string or a Buffer (https://nodejs.org/api/buffer.html) instance representing the _raw_ request body.Payload was provided as a parsed JavaScript object instead. \n' +
+[dev:server]       'Signature verification is impossible without access to the original signed material. \n' +
+[dev:server]       '\n' +
+[dev:server]       'Learn more about webhook signing and explore webhook integration examples for various frameworks at https://docs.stripe.com/webhooks/signature\n'
+[dev:server]   },
+[dev:server]   rawType: undefined,
+[dev:server]   code: undefined,
+[dev:server]   doc_url: undefined,
+[dev:server]   param: undefined,
+[dev:server]   detail: undefined,
+[dev:server]   headers: undefined,
+[dev:server]   requestId: undefined,
+[dev:server]   statusCode: undefined,
+[dev:server]   userMessage: undefined,
+[dev:server]   charge: undefined,
+[dev:server]   decline_code: undefined,
+[dev:server]   payment_intent: undefined,
+[dev:server]   payment_method: undefined,
+[dev:server]   payment_method_type: undefined,
+[dev:server]   setup_intent: undefined,
+[dev:server]   source: undefined,
+[dev:server]   header: 't=1757088580,v1=61bd1ed5ba139b4d0f7c701a68c0f386960d4812502d760591f42a026bc6f242,v0=cb8b91811d01825141220b7178ed00e90882111f0ddba087ba182339313cbdab',
+[dev:server]   payload: {
+[dev:server]     id: 'evt_3S42ClATxoDBt4bw0OuYT2qn',
+[dev:server]     object: 'event',
+[dev:server]     api_version: '2025-08-27.basil',
+[dev:server]     created: 1757088579,
+[dev:server]     data: { object: [Object] },
+[dev:server]     livemode: false,
+[dev:server]     pending_webhooks: 2,
+[dev:server]     request: {
+[dev:server]       id: null,
+[dev:server]       idempotency_key: '284003c0-924e-4f76-b909-8b0ea87c880a'
+[dev:server]     },
+[dev:server]     type: 'charge.succeeded'
+[dev:server]   }
+[dev:server] }
+[dev:server] Webhook signature verification failed. StripeSignatureVerificationError: Webhook payload must be provided as a string or a Buffer (https://nodejs.org/api/buffer.html) instance representing the _raw_ request body.Payload was provided as a parsed JavaScript object instead.
+[dev:server] Signature verification is impossible without access to the original signed material.
+[dev:server]
+[dev:server] Learn more about webhook signing and explore webhook integration examples for various frameworks at https://docs.stripe.com/webhooks/signature
+[dev:server]
+[dev:server]     at validateComputedSignature (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:135:23)
+[dev:server]     at Object.verifyHeader (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:67:13)   
+[dev:server]     at Object.constructEvent (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:12:32) 
+[dev:server]     at <anonymous> (C:\Users\user\Desktop\FindGreatStocks\server\routes.ts:923:31)
+[dev:server]     at Layer.handle [as handle_request] (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\layer.js:95:5)
+[dev:server]     at next (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:149:13)
+[dev:server]     at rawParser (C:\Users\user\Desktop\FindGreatStocks\node_modules\body-parser\lib\types\raw.js:58:7)
+[dev:server]     at Layer.handle [as handle_request] (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\layer.js:95:5)
+[dev:server]     at next (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:149:13)
+[dev:server]     at Route.dispatch (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:119:3) {
+[dev:server]   type: 'StripeSignatureVerificationError',
+[dev:server]   raw: {
+[dev:server]     message: 'Webhook payload must be provided as a string or a Buffer (https://nodejs.org/api/buffer.html) instance representing the _raw_ request body.Payload was provided as a parsed JavaScript object instead. \n' +
+[dev:server]       'Signature verification is impossible without access to the original signed material. \n' +
+[dev:server]       '\n' +
+[dev:server]       'Learn more about webhook signing and explore webhook integration examples for various frameworks at https://docs.stripe.com/webhooks/signature\n'
+[dev:server]   },
+[dev:server]   rawType: undefined,
+[dev:server]   code: undefined,
+[dev:server]   doc_url: undefined,
+[dev:server]   param: undefined,
+[dev:server]   detail: undefined,
+[dev:server]   headers: undefined,
+[dev:server]   requestId: undefined,
+[dev:server]   statusCode: undefined,
+[dev:server]   userMessage: undefined,
+[dev:server]   charge: undefined,
+[dev:server]   decline_code: undefined,
+[dev:server]   payment_intent: undefined,
+[dev:server]   payment_method: undefined,
+[dev:server]   payment_method_type: undefined,
+[dev:server]   setup_intent: undefined,
+[dev:server]   source: undefined,
+[dev:server]   header: 't=1757088580,v1=aad72b1e07a599d206ab06219415378a30c0a780f023560b4af9ec76f96efcb0,v0=a0dc8ce8e72ab1f332b062a5aa1bba24add480389982e34054fe627d63eee5c9',
+[dev:server]   payload: {
+[dev:server]     id: 'evt_3S42ClATxoDBt4bw0pxGIe4d',
+[dev:server]     object: 'event',
+[dev:server]     api_version: '2025-08-27.basil',
+[dev:server]     created: 1757088579,
+[dev:server]     data: { object: [Object] },
+[dev:server]     livemode: false,
+[dev:server]     pending_webhooks: 2,
+[dev:server]     request: {
+[dev:server]       id: null,
+[dev:server]       idempotency_key: '284003c0-924e-4f76-b909-8b0ea87c880a'
+[dev:server]     },
+[dev:server]     type: 'payment_intent.created'
+[dev:server]   }
+[dev:server] }
+[dev:server] POST /api/stripe/webhook 400 445 - 3.099 ms
+[dev:server] Webhook signature verification failed. StripeSignatureVerificationError: Webhook payload must be provided as a string or a Buffer (https://nodejs.org/api/buffer.html) instance representing the _raw_ request body.Payload was provided as a parsed JavaScript object instead.
+[dev:server] Signature verification is impossible without access to the original signed material.
+[dev:server]
+[dev:server] Learn more about webhook signing and explore webhook integration examples for various frameworks at https://docs.stripe.com/webhooks/signature
+[dev:server]
+[dev:server]     at validateComputedSignature (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:135:23)
+[dev:server]     at Object.verifyHeader (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:67:13)   
+[dev:server]     at Object.constructEvent (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:12:32) 
+[dev:server]     at <anonymous> (C:\Users\user\Desktop\FindGreatStocks\server\routes.ts:923:31)
+[dev:server]     at Layer.handle [as handle_request] (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\layer.js:95:5)
+[dev:server]     at next (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:149:13)
+[dev:server]     at rawParser (C:\Users\user\Desktop\FindGreatStocks\node_modules\body-parser\lib\types\raw.js:58:7)
+[dev:server]     at Layer.handle [as handle_request] (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\layer.js:95:5)
+[dev:server]     at next (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:149:13)
+[dev:server]     at Route.dispatch (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:119:3) {
+[dev:server]   type: 'StripeSignatureVerificationError',
+[dev:server]   raw: {
+[dev:server]     message: 'Webhook payload must be provided as a string or a Buffer (https://nodejs.org/api/buffer.html) instance representing the _raw_ request body.Payload was provided as a parsed JavaScript object instead. \n' +
+[dev:server]       'Signature verification is impossible without access to the original signed material. \n' +
+[dev:server]       '\n' +
+[dev:server]       'Learn more about webhook signing and explore webhook integration examples for various frameworks at https://docs.stripe.com/webhooks/signature\n'
+[dev:server]   },
+[dev:server]   rawType: undefined,
+[dev:server]   code: undefined,
+[dev:server]   doc_url: undefined,
+[dev:server]   param: undefined,
+[dev:server]   detail: undefined,
+[dev:server]   headers: undefined,
+[dev:server]   requestId: undefined,
+[dev:server]   statusCode: undefined,
+[dev:server]   userMessage: undefined,
+[dev:server]   charge: undefined,
+[dev:server]   decline_code: undefined,
+[dev:server]   payment_intent: undefined,
+[dev:server]   payment_method: undefined,
+[dev:server]   payment_method_type: undefined,
+[dev:server]   setup_intent: undefined,
+[dev:server]   source: undefined,
+[dev:server]   header: 't=1757088580,v1=049a38017e8ada09b7026879b080e2ec657d5afc6b88c03055ec42e1dfec43d3,v0=d7c932c8f77f70a048cbfaffa37688c78eba2054d1d4b76d97028a3df9b32cfa',
+[dev:server]   payload: {
+[dev:server]     id: 'evt_1S42CmATxoDBt4bwsMLL4odx',
+[dev:server]     object: 'event',
+[dev:server]     api_version: '2025-08-27.basil',
+[dev:server]     created: 1757088580,
+[dev:server]     data: { object: [Object] },
+[dev:server]     livemode: false,
+[dev:server]     pending_webhooks: 2,
+[dev:server]     request: { id: null, idempotency_key: null },
+[dev:server]     type: 'checkout.session.completed'
+[dev:server]   }
+[dev:server] }
+[dev:server] POST /api/stripe/webhook 400 445 - 1.556 ms
+[dev:server] Webhook signature verification failed. StripeSignatureVerificationError: Webhook payload must be provided as a string or a Buffer (https://nodejs.org/api/buffer.html) instance representing the _raw_ request body.Payload was provided as a parsed JavaScript object instead.
+[dev:server] Signature verification is impossible without access to the original signed material.
+[dev:server]
+[dev:server] Learn more about webhook signing and explore webhook integration examples for various frameworks at https://docs.stripe.com/webhooks/signature
+[dev:server]
+[dev:server]     at validateComputedSignature (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:135:23)
+[dev:server]     at Object.verifyHeader (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:67:13)   
+[dev:server]     at Object.constructEvent (file:///C:/Users/user/Desktop/FindGreatStocks/node_modules/stripe/esm/Webhooks.js:12:32) 
+[dev:server]     at <anonymous> (C:\Users\user\Desktop\FindGreatStocks\server\routes.ts:923:31)
+[dev:server]     at Layer.handle [as handle_request] (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\layer.js:95:5)
+[dev:server]     at next (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:149:13)
+[dev:server]     at rawParser (C:\Users\user\Desktop\FindGreatStocks\node_modules\body-parser\lib\types\raw.js:58:7)
+[dev:server]     at Layer.handle [as handle_request] (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\layer.js:95:5)
+[dev:server]     at next (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:149:13)
+[dev:server]     at Route.dispatch (C:\Users\user\Desktop\FindGreatStocks\node_modules\express\lib\router\route.js:119:3) {
+[dev:server]   type: 'StripeSignatureVerificationError',
+[dev:server]   raw: {
+[dev:server]     message: 'Webhook payload must be provided as a string or a Buffer (https://nodejs.org/api/buffer.html) instance representing the _raw_ request body.Payload was provided as a parsed JavaScript object instead. \n' +
+[dev:server]       'Signature verification is impossible without access to the original signed material. \n' +
+[dev:server]       '\n' +
+[dev:server]       'Learn more about webhook signing and explore webhook integration examples for various frameworks at https://docs.stripe.com/webhooks/signature\n'
+[dev:server]   },
+[dev:server]   rawType: undefined,
+[dev:server]   code: undefined,
+[dev:server]   doc_url: undefined,
+[dev:server]   param: undefined,
+[dev:server]   detail: undefined,
+[dev:server]   headers: undefined,
+[dev:server]   requestId: undefined,
+[dev:server]   statusCode: undefined,
+[dev:server]   userMessage: undefined,
+[dev:server]   charge: undefined,
+[dev:server]   decline_code: undefined,
+[dev:server]   payment_intent: undefined,
+[dev:server]   payment_method: undefined,
+[dev:server]   payment_method_type: undefined,
+[dev:server]   setup_intent: undefined,
+[dev:server]   source: undefined,
+[dev:server]   header: 't=1757088582,v1=0c8b2e312e30806ab1cb9077b142e01352ac70051e5490c96bc3cc7e8008d3f8,v0=c896f97c9b777567340a6b7dc1756fe1b0eb7ce19f13090473994ae533e67b24',
+[dev:server]   payload: {
+[dev:server]     id: 'evt_3S42ClATxoDBt4bw0UHtLs6x',
+[dev:server]     object: 'event',
+[dev:server]     api_version: '2025-08-27.basil',
+[dev:server]     created: 1757088582,
+[dev:server]     data: { object: [Object], previous_attributes: [Object] },
+[dev:server]     livemode: false,
+[dev:server]     pending_webhooks: 2,
+[dev:server]     request: { id: null, idempotency_key: null },
+[dev:server]     type: 'charge.updated'
+[dev:server]   }
+[dev:server] }
+[dev:server] POST /api/stripe/webhook 400 445 - 1.474 ms
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 207.885 ms
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] Middleware triggered for: /api/auth/me
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 98.585 ms
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 148.691 ms
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/auth/me 200 245 - 161.719 ms
+[dev:server] GET /api/dowjones?offset=0&limit=50&_=1757088593856 200 89535 - 88.350 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 153.608 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 118.121 ms
+[dev:server] GET /api/companies?offset=0&limit=50&_=1757088597586 200 140030 - 261.409 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 117.661 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 160.093 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] GET /api/nasdaq100?offset=0&limit=50&_=1757088607151 200 137612 - 102.041 ms
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 107.762 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 133.458 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 249.065 ms
+[dev:server] [AUTH] Middleware triggered for: /api/watchlist
+[dev:server] [AUTH] OK: Token found in header.
+[dev:server] [AUTH] STEP: Verifying token with Supabase...
+[dev:server] [AUTH] OK: Supabase user found: bizexperiments.com@gmail.com
+[dev:server] [AUTH] STEP: Upserting user into local DB...
+[dev:server] Upserting user: 2d9b23a7-88ad-4464-91f1-6773415899cd (bizexperiments.com@gmail.com)
+[dev:server] Upsert successful for user: 2d9b23a7-88ad-4464-91f1-6773415899cd
+[dev:server] [AUTH] OK: User upserted.
+[dev:server] [AUTH] STEP: Fetching full user profile from local DB...
+[dev:server] [AUTH] OK: Full user profile fetched from DB.
+[dev:server] [AUTH] SUCCESS: Authentication complete for bizexperiments.com@gmail.com.
+[dev:server] GET /api/watchlist 304 - - 172.771 ms
