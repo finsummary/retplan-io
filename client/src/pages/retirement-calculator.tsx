@@ -13,10 +13,8 @@ import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, BarChart, Bar } fro
 import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertTriangle, Lightbulb, Save, Share, Bus, LogIn, LogOut, User, History, Trash2, Eye, Copy, Link, Mail, MessageCircle } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
-import { isUnauthorizedError } from "@/lib/authUtils";
 import { 
   calculateRetirementScenarios, 
   generateGrowthProjectionData, 
@@ -52,7 +50,7 @@ export default function RetirementCalculator() {
   
   const { user, isAuthenticated, isLoading: authLoading, logoutMutation } = useAuth();
   const { toast } = useToast();
-  const queryClient = useQueryClient();
+  const [savedScenarios, setSavedScenarios] = useState<any[]>([]);
   
   const saveForm = useForm<SaveFormData>({
     resolver: zodResolver(saveScenarioSchema),
@@ -61,12 +59,24 @@ export default function RetirementCalculator() {
     },
   });
   
-  // Query for saved scenarios
-  const { data: savedScenarios = [] } = useQuery<any[]>({
-    queryKey: ["/api/scenarios"],
-    enabled: isAuthenticated,
-    retry: false,
-  });
+  // Load scenarios from localStorage
+  useEffect(() => {
+    if (isAuthenticated) {
+      const savedScenariosData = localStorage.getItem('retplan_scenarios');
+      if (savedScenariosData) {
+        try {
+          setSavedScenarios(JSON.parse(savedScenariosData));
+        } catch (e) {
+          console.error('Error parsing saved scenarios:', e);
+          setSavedScenarios([]);
+        }
+      } else {
+        setSavedScenarios([]);
+      }
+    } else {
+      setSavedScenarios([]);
+    }
+  }, [isAuthenticated]);
   
   // Mutation for saving scenarios
   const saveScenarioMutation = useMutation({
@@ -74,6 +84,7 @@ export default function RetirementCalculator() {
       if (!results) throw new Error("No calculation results to save");
       
       const scenarioData = {
+        id: Math.random().toString(36).substring(2),
         name: data.name,
         currentAge: form.getValues("currentAge"),
         retirementAge: form.getValues("retirementAge"),
@@ -81,32 +92,24 @@ export default function RetirementCalculator() {
         desiredIncome: form.getValues("desiredMonthlyIncome"),
         monthlyContribution: results.conservative.requiredMonthlySavings,
         retirementScenarios: results,
+        createdAt: new Date().toISOString(),
       };
       
-      const response = await apiRequest("POST", "/api/scenarios", scenarioData);
-      return response.json();
+      const currentScenarios = [...savedScenarios, scenarioData];
+      localStorage.setItem('retplan_scenarios', JSON.stringify(currentScenarios));
+      setSavedScenarios(currentScenarios);
+      
+      return scenarioData;
     },
     onSuccess: () => {
       toast({
         title: "Scenario Saved",
         description: "Your retirement scenario has been saved successfully.",
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/scenarios"] });
       setSaveDialogOpen(false);
       saveForm.reset();
     },
     onError: (error) => {
-      if (isUnauthorizedError(error)) {
-        toast({
-          title: "Unauthorized",
-          description: "You are logged out. Logging in again...",
-          variant: "destructive",
-        });
-        setTimeout(() => {
-          window.location.href = "/api/login";
-        }, 500);
-        return;
-      }
       toast({
         title: "Save Failed",
         description: "Failed to save your scenario. Please try again.",
@@ -118,28 +121,18 @@ export default function RetirementCalculator() {
   // Mutation for deleting scenarios
   const deleteScenarioMutation = useMutation({
     mutationFn: async (scenarioId: string) => {
-      const response = await apiRequest("DELETE", `/api/scenarios/${scenarioId}`);
-      return response.json();
+      const updatedScenarios = savedScenarios.filter(scenario => scenario.id !== scenarioId);
+      localStorage.setItem('retplan_scenarios', JSON.stringify(updatedScenarios));
+      setSavedScenarios(updatedScenarios);
+      return { id: scenarioId };
     },
     onSuccess: () => {
       toast({
         title: "Scenario Deleted",
         description: "Your retirement scenario has been deleted successfully.",
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/scenarios"] });
     },
     onError: (error) => {
-      if (isUnauthorizedError(error)) {
-        toast({
-          title: "Unauthorized",
-          description: "You are logged out. Logging in again...",
-          variant: "destructive",
-        });
-        setTimeout(() => {
-          window.location.href = "/api/login";
-        }, 500);
-        return;
-      }
       toast({
         title: "Delete Failed",
         description: "Failed to delete your scenario. Please try again.",
